@@ -27,7 +27,7 @@
 \renewcommand{\arraystretch}{1.12}
 
 \title{Storytelling as Inverse Inverse Planning}
-\subtitle{Chandra, Li, Tenenbaum \& Ragan-Kelley (2023) --- with Borges, \emph{The Garden of Forking Paths}}
+\subtitle{Chandra, Li, Tenenbaum \& Ragan-Kelley (2023), read with Borges, \emph{The Garden of Forking Paths}}
 \author{Aldo Costa}
 \institute{Master-Seminar: Theory of Mind}
 \date{21.01.27}
@@ -325,9 +325,9 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 \begin{frame}{Naïve planning vs.\ inverse inverse planning}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.74\textwidth}
-\textbf{Naïve planning} --- the observer stays unsure\\[0.2em]
+\textbf{Naïve planning}: the observer stays unsure\\[0.2em]
 \paperfig[0.3]{fig1_story}\\[0.6em]
-\textbf{Inverse inverse planning} --- the observer is sure: \alert{helping}\\[0.2em]
+\textbf{Inverse inverse planning}: the observer is sure of \alert{helping}\\[0.2em]
 \paperfig[0.3]{fig2_story}
 \end{column}
 \begin{column}{0.24\textwidth}
@@ -376,7 +376,7 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 
 \slideendspace
 \begin{alertblock}{Reading}
-Indifference is easy for a planner. Not all scenes allow helping, e.g.\ the cheese is \alert{close to its goal}.
+Indifferent characters rarely interact, so naïve planning shows indifference well. Helping is hardest: not all scenes allow it, for example when the cheese is already \alert{close to its goal}.
 \end{alertblock}
 \seminar{Human vs.\ model comparison of ToM: 29.10.}
 \end{frame}
@@ -617,6 +617,40 @@ Choose one path for its effect on the audience.
 \section{Discussion}
 % ==================================================
 
+\begin{frame}{The evidence: what does it show?}
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.48\textwidth}
+\begin{block}{\faCheck\ Strengths}
+\begin{itemize}\tightitem
+  \item humans judge the output, not the model's own score
+  \item one method, two audience models: ToM and physics
+  \item each device is a short objective you can read
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{block}{\faSearch\ Concerns (my critique)}
+\begin{itemize}\tightitem
+  \item weak baseline: the naïve planner does not try to be understood
+  \item devices: one seed each, no human test
+  \item one small grid world, 20 seeds per relation
+  \item Exp.~2: small sample, N given as 35 and as 70
+\end{itemize}
+\end{block}
+\end{column}
+
+\end{columns}
+
+\slideendspace
+\begin{alertblock}{\faBalanceScale\ Claim vs.\ evidence}
+Shown: the method \emph{can} make scenes that people read as intended.\\
+Not shown: that human storytellers \alert{plan this way}.
+\end{alertblock}
+\figsource{A stronger baseline: legible motion planning (Dragan et al., 2013), which the paper cites.}
+\end{frame}
+
 \begin{frame}{Limits and critique}
 \begin{columns}[T,onlytextwidth]
 
@@ -644,7 +678,7 @@ Choose one path for its effect on the audience.
 
 \slideendspace
 \begin{alertblock}{\faBalanceScale\ Ethics (my extension)}
-The same machinery can \alert{deceive}: legible vs.\ deceptive motion.
+The same machinery can \alert{deceive}. Robotics already studies both legible and deceptive motion.
 \end{alertblock}
 \seminar{Audience aware of being modelled: 07.01.\ (interlocutor awareness) \quad Recursive ToM: 10.12.\ invited talk}
 \end{frame}
@@ -657,11 +691,12 @@ Questions
 
 \begin{frame}{Discussion}
 \begin{enumerate}\tightitem
+  \item The model makes readable scenes. What data would show that \emph{people} tell stories this way?
   \item Objective for Yu Tsun: which term makes the murder win?
   \item Is the Chief a Bayesian inverse planner? What prior does he need?
   \item Can the garden be optimized, or is refusing to choose the point?
-  \item Speculation: is a good twist a script with a large belief jump ($D_{\mathrm{KL}}$)?
-  \item Could an LLM be the audience model? \seminar{Clever Hans risk: 05.11.}
+  \item The arc objective \emph{penalizes} belief jumps ($D_{\mathrm{KL}}$). Should a twist \emph{reward} one?
+  \item Could an LLM be the audience model? How would we test it? \seminar{Clever Hans risk: 05.11.}
 \end{enumerate}
 \end{frame}
 

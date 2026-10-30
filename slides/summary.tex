@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \renewcommand{\familydefault}{\sfdefault}
-\usepackage[margin=1.3cm,top=0.8cm,bottom=0.8cm]{geometry}
+\usepackage[margin=1.3cm,top=0.7cm,bottom=0.6cm]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{xcolor}
@@ -49,7 +49,7 @@
   colback=mDarkTeal!6, colbacktitle=mDarkTeal!14,
   fonttitle=\bfseries\small, fontupper=\small\RaggedRight,
   left=4pt, right=4pt, top=3pt, bottom=3pt,
-  toptitle=1.5pt, bottomtitle=1.5pt, before skip=0pt, after skip=4.5pt}}
+  toptitle=1.5pt, bottomtitle=1.5pt, before skip=0pt, after skip=3.5pt}}
 \newtcolorbox{mblock}[2][]{mbase, coltitle=mDarkTeal, title={#2}, #1}
 \newtcolorbox{malert}[2][]{mbase, coltitle=mLightBrown!75!black, title={#2}, #1}
 
@@ -62,7 +62,7 @@
   colback=mDarkTeal, coltext=white, left=8pt, right=8pt, top=6pt, bottom=6pt, after skip=1pt]
 \begin{minipage}[c]{0.82\linewidth}
 {\LARGE\bfseries Storytelling as Inverse Inverse Planning}\\[0.25em]
-{\small Chandra, Li, Tenenbaum \& Ragan-Kelley (2023) --- with Borges, \emph{The Garden of Forking Paths} (1941)}\\[0.25em]
+{\small Chandra, Li, Tenenbaum \& Ragan-Kelley (2023), read with Borges, \emph{The Garden of Forking Paths} (1941)}\\[0.25em]
 {\footnotesize Aldo Costa \quad\textbullet\quad Master-Seminar: Theory of Mind, HHU \quad\textbullet\quad 21.01.2027}
 \end{minipage}\hfill
 \begin{minipage}[c]{0.15\linewidth}
@@ -84,7 +84,7 @@ A storyteller plans for the \belief{audience's beliefs}, not for the characters'
 \begin{minipage}[t]{0.49\linewidth}\vspace{0pt}
 
 \begin{mblock}{\faFilm\ Motivation}
-Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). A rational planner reaches its goals, but an efficient path leaves no doubt: no suspense, no irony. Kukkonen (2014): a story is a ``probability design'' of the reader's beliefs.
+Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). A rational planner reaches its goals, but an efficient path leaves no doubt, so it has no suspense and no irony. Kukkonen (2014): a story is a ``probability design'' of the reader's beliefs.
 \end{mblock}
 
 \begin{mblock}{\faBrain\ Three levels}
@@ -92,8 +92,7 @@ Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). 
 \textbf{Planning} & goal $\rightarrow$ actions (act)\\
 \textbf{Inverse planning} & actions $\rightarrow$ \belief{$\Prob(\text{goal}\mid\text{actions})$} (ToM)\\
 \textbf{Inverse inverse} & \teller{objective} $\rightarrow$ actions, via an audience model\\
-\end{tabular}\\[0.2em]
-The storyteller plans \emph{through} a model of the audience's theory of mind.
+\end{tabular}
 \end{mblock}
 
 \begin{mblock}{\faRobot\ Audience model (Ullman et al., 2009)}
@@ -104,11 +103,11 @@ Grid world: a \robot{robot} that can push objects and a weak \cheese{cheese} (it
 \end{mblock}
 
 \begin{mblock}{\faBullseye\ Optimizing a script}
-A script $\sigma$ is an initial state plus a sequence of moves; $\sigma_{1:t}$ is the part seen so far. The setting and the outcome of each move are optimized too. Beam search (keep the best few partial scripts) maximizes, for example,
+A script $\sigma$ is a setting plus a sequence of moves and their outcomes, all optimized; $\sigma_{1:t}$ is the part seen so far. Beam search (keep the best few partial scripts) maximizes, for example,
 \[
 f_{\text{help}}(\sigma)=\textstyle\sum_{t}\belief{\Prob(\rho>0\mid\sigma_{1:t})}.
 \]
-The objective fixes no goals or positions --- the optimizer finds a scene that \alert{shows} helping.\\[0.3em]
+The objective fixes no goals or positions. The optimizer finds a scene that \alert{shows} helping.\\[0.3em]
 \begin{minipage}[t]{0.49\linewidth}\centering
 \includegraphics[width=\linewidth]{fig1_align.png}\\{\footnotesize naïve planning: unsure}
 \end{minipage}\hfill
@@ -120,7 +119,8 @@ The objective fixes no goals or positions --- the optimizer finds a scene that \
 
 \begin{mblock}{\faExclamationTriangle\ Limits and critique}
 \begin{itemize}
-  \item \textbf{Paper}: scales badly (state, hypothesis, script spaces); too slow for real-time experiments; emotion is future work.
+  \item \textbf{Paper}: scales badly; too slow for real time; emotion is future work.
+  \item \textbf{Evidence} (my critique): weak baseline; devices are one-seed demos, untested on humans. The method \emph{can} make readable scenes; it does not show that people plan this way.
   \item \textbf{Borges} (my reading): the Chief must already hold the hypothesis ``a killing encodes a name''; one lossy report, not a full trajectory.
   \item \textbf{Ethics} (my extension): the same machinery can deceive.
 \end{itemize}
@@ -130,7 +130,7 @@ The objective fixes no goals or positions --- the optimizer finds a scene that \
 \begin{minipage}[t]{0.49\linewidth}\vspace{0pt}
 
 \begin{mblock}{\faFlask\ Results}
-\textbf{Exp.\ 1}: 98 participants, 120 animations; \% who report the intended relation, naïve vs.\ inverse inverse: helping 6 vs.\ \textbf{73}, hindering 29 vs.\ \textbf{63} (both $p<0.01$), indifferent 75 vs.\ 73 (n.s.). Not all scenes allow helping (cheese already near its goal).\\[0.2em]
+\textbf{Exp.\ 1}: 98 participants, 120 animations; \% who report the intended relation, naïve vs.\ inverse inverse: helping 6 vs.\ \textbf{73}, hindering 29 vs.\ \textbf{63} (both $p<0.01$), indifferent 75 vs.\ 73 (n.s.). Indifference is easy (characters rarely interact); not all scenes allow helping.\\[0.2em]
 \textbf{Exp.\ 2} (``inverse inverse physics''): a hopping robot mimes pulling a heavy box. Controls: chance on same-weight pairs, 97\% on honest heavy vs.\ light. The mime is judged heavier than an honest light box (\textbf{95.7\%}) and than an honest \emph{heavy} box (\textbf{68.6\%}). \note{35 participants in the text; Fig.~4b says N = 70.}
 \end{mblock}
 
@@ -146,17 +146,18 @@ The objective fixes no goals or positions --- the optimizer finds a scene that \
 \begin{mblock}{\faUserSecret\ \borges{The Garden of Forking Paths} (my reading)}
 Yu Tsun, a German spy in England, must tell his Chief in Berlin the name of a town. He kills a stranger named Albert; the newspapers report it; the Chief understands and the town of Albert is bombed.
 \begin{itemize}
-  \item \textbf{Reading 1}: the murder is inverse inverse planning --- \teller{storyteller} Yu Tsun, \belief{audience} the Chief, observations = newspapers. Terrible in the world, the only act that works for the belief: an extreme mime.
-  \item \textbf{Reading 2}: Borges shapes the reader's belief the same way --- Yu Tsun calls himself Albert's friend, then shoots (twist).
+  \item \textbf{Reading 1}: the murder is inverse inverse planning, with \teller{storyteller} Yu Tsun, \belief{audience} the Chief, observations = newspapers. The act is terrible in the world but is the only one that creates the belief: an extreme mime.
+  \item \textbf{Reading 2}: Borges shapes the reader's belief the same way: Yu Tsun calls himself Albert's friend, then shoots (twist).
   \item \textbf{Reading 3}: Ts'ui Pen's novel takes \emph{every} branch; a storyteller keeps \emph{one} script and lets the audience infer the meaning: show, don't tell.
 \end{itemize}
 \end{mblock}
 
 \begin{malert}{\faComments\ For discussion}
 \begin{enumerate}
-  \item Write an objective $f$ under which Yu Tsun's murder scores highest. Which term does the work?
-  \item Is the Chief a Bayesian inverse planner? What prior does he need?
-  \item Could an LLM be the audience model?
+  \item What data would show that \emph{people} tell stories this way?
+  \item Which objective $f$ makes Yu Tsun's murder score highest?
+  \item Is the Chief a Bayesian inverse planner? With what prior?
+  \item Could an LLM be the audience model? How to test it?
 \end{enumerate}
 \end{malert}
 
@@ -164,7 +165,7 @@ Yu Tsun, a German spy in England, must tell his Chief in Berlin the name of a to
 
 \vfill
 {\color{black!30}\rule{\linewidth}{0.4pt}}\\[0.1em]
-\note{\faLink\ Seminar links: Bayesian ToM 03.12.\ \textbullet\ LLM inverse planning 17.12.\ \textbullet\ \texttt{memo} 14.01.\ \textbullet\ false belief 29.10.\ \textbullet\ Clever Hans 05.11.\ \textbullet\ interlocutor awareness 07.01.\ \textbullet\ epistemic logic 04.02.}\\[0.2em]
+\note{\faLink\ Seminar:Bayesian ToM 03.12.\ \textbullet\ LLM planning 17.12.\ \textbullet\ \texttt{memo} 14.01.\ \textbullet\ false belief 29.10.\ \textbullet\ Clever Hans 05.11.\ \textbullet\ awareness 07.01.\ \textbullet\ epistemic logic 04.02.}\\[0.2em]
 {\scriptsize\color{black!70}
 Chandra, K., Li, T.-M., Tenenbaum, J.\,B., \& Ragan-Kelley, J. (2023). Storytelling as inverse inverse planning. \emph{Proc.\ CogSci} 45 (CC BY 4.0); code and videos: \url{https://people.csail.mit.edu/kach/a2i2p/}.
 Borges, J.\,L. (1941). El jardín de senderos que se bifurcan.
