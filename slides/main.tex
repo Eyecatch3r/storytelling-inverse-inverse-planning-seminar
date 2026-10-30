@@ -59,10 +59,12 @@
 \newcommand{\slideendspace}{\vspace{0.3em}}
 
 % Placeholder-safe figure include.
-% Put cropped paper figures as PDFs in assets/.
+% Cropped paper figures live in assets/ as PDF or PNG.
 \newcommand{\paperfig}[2][0.52]{%
 \IfFileExists{assets/#2.pdf}{%
   \includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2.pdf}%
+}{\IfFileExists{assets/#2.png}{%
+  \includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2.png}%
 }{%
   \begin{center}
   \fbox{%
@@ -73,7 +75,7 @@
     \end{minipage}
   }
   \end{center}
-}%
+}}%
 }
 
 \begin{document}
@@ -322,17 +324,17 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 
 \begin{frame}{Naïve planning vs.\ inverse inverse planning}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\begin{block}{Naïve planning}
-\paperfig[0.42]{fig1_naive}
-\footnotesize Cheese already at pink, robot goes to green. The observer stays unsure.
-\end{block}
+\begin{column}{0.74\textwidth}
+\textbf{Naïve planning} --- the observer stays unsure\\[0.2em]
+\paperfig[0.3]{fig1_story}\\[0.6em]
+\textbf{Inverse inverse planning} --- the observer is sure: \alert{helping}\\[0.2em]
+\paperfig[0.3]{fig2_story}
 \end{column}
-\begin{column}{0.48\textwidth}
-\begin{block}{Inverse inverse planning}
-\paperfig[0.42]{fig2_iip}
-\footnotesize Robot pushes cheese to pink, then steps back. The observer is sure: \alert{helping}.
-\end{block}
+\begin{column}{0.24\textwidth}
+\centering
+\vspace{1.0em}
+\paperfig[0.3]{fig1_align}\\[1.4em]
+\paperfig[0.3]{fig2_align}
 \end{column}
 \end{columns}
 \figsource{based on Chandra et al.\ (2023), Fig.~1 and Fig.~2.}
@@ -390,7 +392,7 @@ Indifference is easy for a planner. Helping is hard: the cheese is often \alert{
   \item make a \alert{light} box look heavy
 \end{itemize}
 \end{block}
-\paperfig[0.26]{fig4a_hopper}
+{\centering\paperfig[0.32]{fig4a_hopper}\par}
 \figsource{based on Chandra et al.\ (2023), Fig.~4a.}
 \end{column}
 
