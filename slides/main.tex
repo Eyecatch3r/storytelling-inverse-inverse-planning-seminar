@@ -53,6 +53,16 @@
 \newcommand{\borges}[1]{\textcolor{borgesRed}{#1}}
 \newcommand{\Prob}{\mathrm{P}}
 
+\tikzset{
+  cellgrid/.style={gray!35},
+  walk/.style={-{Stealth[length=1.8mm]}, very thick, rounded corners=2pt},
+  chainbox/.style={draw=gray!60, rounded corners=2pt, fill=softGray, font=\footnotesize,
+    align=center, inner sep=2.5pt, text width=#1},
+  chainbox/.default=5.6cm,
+  chainarr/.style={-{Stealth[length=1.8mm]}, thick, gray!70!black},
+  axis/.style={-{Stealth[length=1.5mm]}, gray!70!black},
+}
+
 \newcommand{\figsource}[1]{\par\vspace{0.2em}{\centering\scriptsize\color{gray}#1\par}}
 \newcommand{\seminar}[1]{{\scriptsize\color{gray}\faLink\ #1}}
 \newcommand{\tightitem}{\itemsep0.3em}
@@ -150,10 +160,15 @@ What does a storyteller do that a rational agent does not?
 \centering
 \textbf{Optimize the character's reward}
 \end{block}
-\begin{itemize}\tightitem
-  \item agent wants a goal
-  \item best action: shortest path
-\end{itemize}
+{\centering
+\begin{tikzpicture}[scale=0.42]
+  \draw[cellgrid] (0,0) grid (8,5);
+  \fill[goalGreen!45] (7,3) rectangle (8,4);
+  \fill[goalPink!45] (7,1) rectangle (8,2);
+  \draw[walk, robotBlue] (0.5,2.5) -- (6.5,2.5) -- (6.5,3.5) -- (7.4,3.5);
+  \node[circle, fill=robotBlue, inner sep=2pt] at (0.5,2.5) {};
+\end{tikzpicture}\\[0.1em]
+{\scriptsize shortest path: 8 steps, goal unclear until the end}\par}
 \end{column}
 
 \begin{column}{0.48\textwidth}
@@ -161,10 +176,16 @@ What does a storyteller do that a rational agent does not?
 \centering
 \textbf{Optimize the \belief{audience's belief}}
 \end{block}
-\begin{itemize}\tightitem
-  \item audience must \emph{infer} the goal
-  \item best action can be sub-optimal
-\end{itemize}
+{\centering
+\begin{tikzpicture}[scale=0.42]
+  \draw[cellgrid] (0,0) grid (8,5);
+  \fill[goalGreen!45] (7,3) rectangle (8,4);
+  \fill[goalPink!45] (7,1) rectangle (8,2);
+  \draw[walk, tellerTeal] (0.5,2.5) -- (0.5,4.5) -- (7.5,4.5) -- (7.5,3.6);
+  \node[circle, fill=robotBlue, inner sep=2pt] at (0.5,2.5) {};
+  \node[font=\small, beliefPurple] at (9,4.5) {\faEye};
+\end{tikzpicture}\\[0.1em]
+{\scriptsize detour: 10 steps, the \belief{audience} sees the goal at once}\par}
 \end{column}
 
 \end{columns}
@@ -256,11 +277,17 @@ Inverse planning is not used to \emph{read} minds, but as the \alert{audience mo
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faRobot\ Grid-world kitchen}
-\begin{itemize}\tightitem
-  \item a strong \robot{robot}, a weak \cheese{cheese}
-  \item cheese moves succeed 60\% of the time
-  \item goal tiles: \pink{pink}, \green{green}
-\end{itemize}
+\centering
+\begin{tikzpicture}[scale=0.36]
+  \draw[cellgrid] (0,0) grid (8,4);
+  \fill[goalPink!50] (0,3) rectangle (1,4);
+  \fill[goalGreen!50] (7,0) rectangle (8,1);
+  \fill[gray!60] (4,1) rectangle (5,3);
+  \fill[robotBlue] (1.2,0.2) rectangle (1.8,0.8);
+  \fill[cheeseGold] (3.5,2.5) circle (0.32);
+\end{tikzpicture}\\[0.2em]
+{\scriptsize strong \robot{robot}, weak \cheese{cheese} (moves succeed 60\%),\\
+goal tiles \pink{pink} and \green{green}, a gray table}
 \end{block}
 \end{column}
 
@@ -307,10 +334,16 @@ $\sigma_t = \langle \robot{a^{\text{robot}}_t}, \cheese{a^{\text{cheese}}_t}, s_
 \[
 f_{\text{help}}(\sigma)=\sum_{t=1}^{T}\belief{\Prob(\rho_{\text{robot}}>0\mid\sigma_{1:t})}
 \]
-\begin{itemize}\tightitem
-  \item strong belief at every step
-  \item beam search over scripts
-\end{itemize}
+\centering
+\begin{tikzpicture}[x=0.3cm, y=0.85cm, font=\scriptsize]
+  \fill[beliefPurple!18] (0,0) -- plot[smooth] coordinates {(0,0.5) (2,0.68) (5,0.84) (9,0.92) (15,0.95)} -- (15,0) -- cycle;
+  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (2,0.68) (5,0.84) (9,0.92) (15,0.95)};
+  \draw[axis] (0,0) -- (15.8,0) node[right]{$t$};
+  \draw[axis] (0,0) -- (0,1.2);
+  \node[anchor=west, beliefPurple] at (0.2,1.12) {belief in helping};
+  \node at (8,0.38) {$f_{\text{help}}$ = area};
+\end{tikzpicture}\\[0.1em]
+{\scriptsize beam search over scripts}
 \end{block}
 \end{column}
 
@@ -398,12 +431,23 @@ Indifferent characters rarely interact, so naïve planning shows indifference we
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faFlask\ Behavioral experiment 2}
-\begin{itemize}\tightitem
-  \item control pairs: chance (50\%)
-  \item honest heavy vs.\ light: 97\% correct
-  \item mime vs.\ honest light: \textbf{95.7\%} pick the mime
-  \item mime vs.\ honest \emph{heavy}: \textbf{68.6\%} pick the mime
-\end{itemize}
+\centering
+\begin{tikzpicture}[y=0.024cm, font=\scriptsize]
+  \foreach \v in {0,50,100} {
+    \draw[gray!30] (0,\v) -- (5.6,\v);
+    \node[anchor=east, gray] at (0,\v) {\v\%};
+  }
+  \draw[dashed, gray!70!black] (0,50) -- (5.6,50);
+  \node[anchor=west, gray!70!black, font=\tiny] at (5.6,50) {chance};
+  \foreach \x/\v/\c/\l in {0.4/97/gray!55/{honest heavy\\vs.\ light},
+                           2.2/95.7/robotBlue/{mime\\vs.\ light},
+                           4.0/68.6/robotBlue/{mime\\vs.\ \emph{heavy}}} {
+    \fill[\c] (\x,0) rectangle ++(1.2,\v);
+    \node[above] at (\x+0.6,\v) {\v};
+    \node[below, align=center] at (\x+0.6,0) {\l};
+  }
+\end{tikzpicture}\\[0.1em]
+{\scriptsize \% choosing the heavy box (honest) or the mime}
 \end{block}
 {\scriptsize\color{gray} Text: 35 participants. Fig.~4b caption: N = 70.}
 \end{column}
@@ -423,7 +467,17 @@ f_{\text{twist}}=\sum_t
 \Prob(\rho<0\mid\sigma_{1:t}) & t> T/2
 \end{cases}
 \]
-Robot ``helps'' the cheese to pink, then traps it.
+\centering
+\begin{tikzpicture}[x=0.3cm, y=0.75cm, font=\scriptsize]
+  \draw[dashed, gray] (7.5,0) -- (7.5,1.05) node[above]{$T/2$};
+  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.8) (7,0.9) (8.2,0.15) (15,0.08)};
+  \draw[very thick, borgesRed, dashed] plot[smooth] coordinates {(0,0.3) (3,0.12) (7,0.08) (8.2,0.8) (15,0.9)};
+  \draw[axis] (0,0) -- (15.8,0) node[right]{$t$};
+  \draw[axis] (0,0) -- (0,1.1);
+  \node[beliefPurple] at (3.2,1.02) {helps};
+  \node[borgesRed, anchor=north] at (12,0.72) {hinders};
+\end{tikzpicture}\\[0.1em]
+{\scriptsize Robot ``helps'' the cheese to pink, then traps it.}
 \end{block}
 \end{column}
 
@@ -453,16 +507,37 @@ Robot tries to help, but hinders: wrong belief about the goal.
 \[
 f_{\text{flashback}}(\sigma)=f_{\text{help}}\big(c(\sigma)\big)
 \]
-Append a known event to $\sigma$. Search for a past that recasts it as helping.
+Append a known event to $\sigma$. Search for a past that recasts it as helping.\\[0.4em]
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \draw[line width=2.5pt, gray!45] (0,0) -- (3.6,0);
+  \draw[line width=2.5pt, tellerTeal] (3.6,0) -- (5.2,0);
+  \fill (3.6,0) circle (2.2pt);
+  \node[above, align=center] at (1.8,0.1) {past $\sigma$\\(searched)};
+  \node[above, align=center, tellerTeal] at (4.4,0.1) {robot pushes\\cheese east};
+  \node[below, gray] at (1.8,-0.1) {cheese goes around the table};
+  \node[below, tellerTeal] at (4.4,-0.1) {fixed};
+\end{tikzpicture}
 \end{block}
 \end{column}
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faChartLine\ Narrative arc}
+\centering
+\begin{tikzpicture}[x=0.32cm, y=0.55cm, font=\scriptsize]
+  \draw[gray!40] (0,0) -- (15,0);
+  \draw[very thick, robotBlue, domain=0:15, samples=60, smooth] plot (\x, {sin(\x/15*540)});
+  \draw[axis] (0,-1.15) -- (15.8,-1.15) node[right]{$t$};
+  \draw[axis] (0,-1.15) -- (0,1.3);
+  \node[robotBlue, anchor=west] at (0.3,1.25) {robot's fortune};
+  \node[alert, anchor=east] at (4.9,-0.65) {table falls};
+  \draw[-{Stealth[length=1.5mm]}, alert] (4.95,-0.7) -- (7.1,-0.95);
+\end{tikzpicture}\\[0.2em]
+\RaggedRight
 \begin{itemize}\tightitem
-  \item robot's fortune: rise, fall, rise (Vonnegut's story shapes)
+  \item rise, fall, rise: Vonnegut's story shapes
   \item KL penalty keeps apparent goals stable
-  \item \alert{deus ex machina}: a table ``falls from the sky''; no character expects it
+  \item \alert{deus ex machina}: no character expects the table
 \end{itemize}
 \end{block}
 \end{column}
@@ -491,13 +566,15 @@ Append a known event to $\sigma$. Search for a past that recasts it as helping.
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faRoute\ What he does}
-\begin{itemize}\tightitem
-  \item finds ``Stephen Albert'' in the phone book
-  \item they talk about a labyrinth-novel
-  \item shoots Albert, is arrested
-  \item newspapers report the murder
-  \item \alert{the town of Albert is bombed}
-\end{itemize}
+\centering
+\begin{tikzpicture}[node distance=0.22cm]
+  \node[chainbox] (a) {finds ``Stephen Albert'' in the phone book};
+  \node[chainbox, below=of a] (b) {visits him: they talk about a labyrinth-novel};
+  \node[chainbox, below=of b] (c) {shoots Albert, is arrested};
+  \node[chainbox, below=of c] (d) {newspapers report the murder};
+  \node[chainbox, below=of d, fill=borgesRed!15, draw=borgesRed] (e) {the Chief reads them: \alert{the town of Albert is bombed}};
+  \foreach \u/\v in {a/b, b/c, c/d, d/e} \draw[chainarr] (\u) -- (\v);
+\end{tikzpicture}
 \end{block}
 \end{column}
 
@@ -508,17 +585,15 @@ Append a known event to $\sigma$. Search for a past that recasts it as helping.
 \begin{columns}[T,onlytextwidth]
 
 \begin{column}{0.50\textwidth}
-\begin{tabularx}{\linewidth}{>{\RaggedRight\arraybackslash}p{0.34\linewidth} >{\RaggedRight\arraybackslash}X}
-\toprule
-Paper & \borges{Borges} \\
-\midrule
-\teller{Storyteller} & Yu Tsun \\
-\belief{Audience} & the Chief in Berlin \\
-Observations & newspaper reports \\
-\belief{Target belief} & ``the target is \emph{Albert}'' \\
-Script $\sigma$ & train, visit, murder, arrest \\
-\bottomrule
-\end{tabularx}
+\centering
+\begin{tikzpicture}[node distance=0.3cm]
+  \node[chainbox, fill=tellerTeal!12, draw=tellerTeal] (t) {\teller{storyteller}: Yu Tsun};
+  \node[chainbox, below=of t] (s) {script $\sigma$: train, visit, murder, arrest};
+  \node[chainbox, below=of s] (o) {observations: newspaper reports};
+  \node[chainbox, below=of o, fill=beliefPurple!12, draw=beliefPurple] (b) {\belief{audience}: the Chief in Berlin\\\belief{target belief}: ``the target is \emph{Albert}''};
+  \foreach \u/\v in {t/s, s/o, o/b} \draw[chainarr] (\u) -- (\v);
+  \draw[chainarr, dashed, tellerTeal] (b.east) -- ++(0.35,0) |- node[pos=0.25, right, font=\scriptsize, align=left]{plans\\for} (t.east);
+\end{tikzpicture}
 \end{column}
 
 \begin{column}{0.46\textwidth}
