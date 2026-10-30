@@ -6,6 +6,7 @@
 - Thursdays 12:30–14:00, room 25.33.00.41. Language: English. 5 CP.
 - Page: https://www.cs.hhu.de/lehrstuehle-und-arbeitsgruppen/dialog-systems-and-machine-learning/lehre-und-abschlussarbeiten/standard-titel/oberseminar-1-1-1-1-2-2
 - **This session: 21.01.2027, "Theory of Mind and storytelling".**
+- Presenters: Aldo Costa and Jonas Ingenhaag (joint talk). Name both on every deliverable.
 - Talk length and grading: not stated on the page. Ask the organizer.
 
 ## Readings (in `papers/`)
