@@ -20,4 +20,4 @@
 ## Layout
 - `papers/` — source PDFs. Do not edit. Git-ignored (copyright): keep them local only.
 - `notes.md` — reading notes and talk outline.
-- `slides/` — the deck.
+- `slides/` — the deck (`main.tex`), the one-page handout (`summary.tex`), cropped paper figures in `assets/` (paper is CC BY 4.0).
