@@ -107,14 +107,7 @@ A script $\sigma$ is a setting plus a sequence of moves and their outcomes, all 
 \[
 f_{\text{help}}(\sigma)=\textstyle\sum_{t}\belief{\Prob(\rho>0\mid\sigma_{1:t})}.
 \]
-The objective fixes no goals or positions. The optimizer finds a scene that \alert{shows} helping.\\[0.3em]
-\begin{minipage}[t]{0.49\linewidth}\centering
-\includegraphics[width=\linewidth]{fig1_align.png}\\{\footnotesize naïve planning: unsure}
-\end{minipage}\hfill
-\begin{minipage}[t]{0.49\linewidth}\centering
-\includegraphics[width=\linewidth]{fig2_align.png}\\{\footnotesize inverse inverse: \alert{helping}}
-\end{minipage}\\[0.1em]
-\note{Observer's belief about the robot over time (Fig.~1--2).}
+The objective fixes no goals or positions. The optimizer finds a scene that \alert{shows} helping.
 \end{mblock}
 
 \begin{mblock}{\faExclamationTriangle\ Limits and critique}
@@ -126,11 +119,38 @@ The objective fixes no goals or positions. The optimizer finds a scene that \ale
 \end{itemize}
 \end{mblock}
 
+\begin{malert}{\faComments\ For discussion}
+\begin{enumerate}
+  \item What data would show that \emph{people} tell stories this way?
+  \item Which objective $f$ makes Yu Tsun's murder score highest?
+  \item Is the Chief a Bayesian inverse planner? With what prior?
+  \item Could an LLM be the audience model? How to test it?
+\end{enumerate}
+\end{malert}
+
 \end{minipage}\hfill
 \begin{minipage}[t]{0.49\linewidth}\vspace{0pt}
 
 \begin{mblock}{\faFlask\ Results}
-\textbf{Exp.\ 1}: 98 participants, 120 animations; \% who report the intended relation, naïve vs.\ inverse inverse: helping 6 vs.\ \textbf{73}, hindering 29 vs.\ \textbf{63} (both $p<0.01$), indifferent 75 vs.\ 73 (n.s.). Indifference is easy (characters rarely interact); not all scenes allow helping.\\[0.2em]
+\textbf{Exp.\ 1}: 98 participants, 120 animations, 15 per person. Indifference is easy (characters rarely interact); not all scenes allow helping.\\[0.3em]
+{\centering
+\begin{tikzpicture}[x=0.8cm, y=0.024cm, font=\footnotesize]
+  \foreach \v in {0,50,100} {
+    \draw[black!15] (0,\v) -- (7.4,\v);
+    \node[anchor=east, black!60] at (0,\v) {\v};
+  }
+  \draw[black!60] (0,0) -- (7.4,0);
+  \node[rotate=90, align=center] at (-1.25,50) {matching\\responses (\%)};
+  \foreach \x/\n/\i/\name in {0.4/6/73/helping, 2.9/29/63/hindering, 5.4/75/73/indifferent} {
+    \fill[black!35] (\x,0) rectangle ++(0.8,\n) node[above, pos=1, xshift=-0.33cm, black]{\n};
+    \fill[robotBlue] (\x+0.85,0) rectangle ++(0.8,\i) node[above, pos=1, xshift=-0.33cm, black]{\i};
+    \node[below] at (\x+0.82,0) {\name};
+  }
+  \node at (3.7,-34) {intended relation};
+  \fill[black!35] (0.4,122) rectangle ++(0.25,10); \node[anchor=west] at (0.7,127) {naïve};
+  \fill[robotBlue] (2.0,122) rectangle ++(0.25,10); \node[anchor=west] at (2.3,127) {inverse inverse};
+\end{tikzpicture}\par}
+\note{Mean of 20 animations per bar. Helping, hindering: $p<0.01$; indifferent: n.s.}\\[0.2em]
 \textbf{Exp.\ 2} (``inverse inverse physics''): a hopping robot mimes pulling a heavy box. Controls: chance on same-weight pairs, 97\% on honest heavy vs.\ light. The mime is judged heavier than an honest light box (\textbf{95.7\%}) and than an honest \emph{heavy} box (\textbf{68.6\%}). \note{35 participants in the text; Fig.~4b says N = 70.}
 \end{mblock}
 
@@ -152,20 +172,12 @@ Yu Tsun, a German spy in England, must tell his Chief in Berlin the name of a to
 \end{itemize}
 \end{mblock}
 
-\begin{malert}{\faComments\ For discussion}
-\begin{enumerate}
-  \item What data would show that \emph{people} tell stories this way?
-  \item Which objective $f$ makes Yu Tsun's murder score highest?
-  \item Is the Chief a Bayesian inverse planner? With what prior?
-  \item Could an LLM be the audience model? How to test it?
-\end{enumerate}
-\end{malert}
 
 \end{minipage}
 
 \vfill
 {\color{black!30}\rule{\linewidth}{0.4pt}}\\[0.1em]
-\note{\faLink\ Seminar:Bayesian ToM 03.12.\ \textbullet\ LLM planning 17.12.\ \textbullet\ \texttt{memo} 14.01.\ \textbullet\ false belief 29.10.\ \textbullet\ Clever Hans 05.11.\ \textbullet\ awareness 07.01.\ \textbullet\ epistemic logic 04.02.}\\[0.2em]
+\note{\faLink\ Seminar: Bayesian ToM 03.12.\ \textbullet\ LLM planning 17.12.\ \textbullet\ \texttt{memo} 14.01.\ \textbullet\ false belief 29.10.\ \textbullet\ Clever Hans 05.11.\ \textbullet\ awareness 07.01.\ \textbullet\ epistemic logic 04.02.}\\[0.2em]
 {\scriptsize\color{black!70}
 Chandra, K., Li, T.-M., Tenenbaum, J.\,B., \& Ragan-Kelley, J. (2023). Storytelling as inverse inverse planning. \emph{Proc.\ CogSci} 45 (CC BY 4.0); code and videos: \url{https://people.csail.mit.edu/kach/a2i2p/}.
 Borges, J.\,L. (1941). El jardín de senderos que se bifurcan.

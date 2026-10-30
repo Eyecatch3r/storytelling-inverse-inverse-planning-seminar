@@ -334,16 +334,10 @@ $\sigma_t = \langle \robot{a^{\text{robot}}_t}, \cheese{a^{\text{cheese}}_t}, s_
 \[
 f_{\text{help}}(\sigma)=\sum_{t=1}^{T}\belief{\Prob(\rho_{\text{robot}}>0\mid\sigma_{1:t})}
 \]
-\centering
-\begin{tikzpicture}[x=0.3cm, y=0.85cm, font=\scriptsize]
-  \fill[beliefPurple!18] (0,0) -- plot[smooth] coordinates {(0,0.5) (2,0.68) (5,0.84) (9,0.92) (15,0.95)} -- (15,0) -- cycle;
-  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (2,0.68) (5,0.84) (9,0.92) (15,0.95)};
-  \draw[axis] (0,0) -- (15.8,0) node[right]{$t$};
-  \draw[axis] (0,0) -- (0,1.2);
-  \node[anchor=west, beliefPurple] at (0.2,1.12) {belief in helping};
-  \node at (8,0.38) {$f_{\text{help}}$ = area};
-\end{tikzpicture}\\[0.1em]
-{\scriptsize beam search over scripts}
+\begin{itemize}\tightitem
+  \item strong belief at every step
+  \item beam search over scripts
+\end{itemize}
 \end{block}
 \end{column}
 
@@ -355,54 +349,82 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 \end{alertblock}
 \end{frame}
 
-\begin{frame}{Naïve planning vs.\ inverse inverse planning}
+\begin{frame}[t]{Naïve planning: the observer stays unsure}
+\vspace{0.2em}
+{\centering\paperfig[0.26]{fig1_story}\par}
+\vspace{0.3em}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.74\textwidth}
-\textbf{Naïve planning}: the observer stays unsure\\[0.2em]
-\paperfig[0.3]{fig1_story}\\[0.6em]
-\textbf{Inverse inverse planning}: the observer is sure of \alert{helping}\\[0.2em]
-\paperfig[0.3]{fig2_story}
-\end{column}
-\begin{column}{0.24\textwidth}
+\begin{column}{0.46\textwidth}
 \centering
-\vspace{1.0em}
-\paperfig[0.3]{fig1_align}\\[1.4em]
-\paperfig[0.3]{fig2_align}
+\paperfig[0.4]{fig1_align}
+\end{column}
+\begin{column}{0.50\textwidth}
+\begin{block}{\faChartLine\ How to read the plot}
+\begin{itemize}\tightitem
+  \item $y$: observer's posterior for the robot's alignment: hindering, ambivalent, helping
+  \item $x$: time step of the animation
+  \item \alert{helping and ambivalent} share the probability: the robot only walks to green
+\end{itemize}
+\end{block}
 \end{column}
 \end{columns}
-\figsource{based on Chandra et al.\ (2023), Fig.~1 and Fig.~2.}
+\figsource{Model output from Chandra et al.\ (2023), Fig.~1.}
+\end{frame}
+
+\begin{frame}[t]{Inverse inverse planning: the observer is sure}
+\vspace{0.2em}
+{\centering\paperfig[0.26]{fig2_story}\par}
+\vspace{0.3em}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.46\textwidth}
+\centering
+\paperfig[0.4]{fig2_align}
+\end{column}
+\begin{column}{0.50\textwidth}
+\begin{block}{\faChartLine\ Same axes as before}
+\begin{itemize}\tightitem
+  \item the setting is optimized too: the robot pushes the cheese to pink, then steps back
+  \item \alert{helping} stays near 1 for almost the whole video
+  \item $f_{\text{help}}$ = area under the helping curve
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+\figsource{Model output from Chandra et al.\ (2023), Fig.~2.}
 \end{frame}
 
 \begin{frame}{Behavioral experiment 1: do humans agree?}
 \begin{columns}[T,onlytextwidth]
 
-\begin{column}{0.40\textwidth}
+\begin{column}{0.36\textwidth}
 \begin{block}{\faFlask\ Setup}
 \begin{itemize}\tightitem
   \item 120 animations: 20 seeds $\times$ 3 relations $\times$ 2 methods
-  \item 98 participants, 15 videos each
-  \item help / hinder / indifferent / unclear
+  \item 98 participants, 15 animations each
+  \item answer: help / hinder / indifferent / unclear
 \end{itemize}
 \end{block}
 \end{column}
 
-\begin{column}{0.56\textwidth}
+\begin{column}{0.62\textwidth}
 \centering
-\begin{tikzpicture}[y=0.03cm, font=\scriptsize]
-  \draw[gray] (0,0) -- (7.4,0);
+\begin{tikzpicture}[x=0.95cm, y=0.025cm, font=\footnotesize]
   \foreach \v in {0,25,50,75,100} {
     \draw[gray!30] (0,\v) -- (7.4,\v);
-    \node[anchor=east, gray] at (0,\v) {\v\%};
+    \node[anchor=east, gray!70!black] at (0,\v) {\v};
   }
-  \foreach \x/\n/\i/\name in {0.4/6/73/Helping, 2.9/29/63/Hindering, 5.4/75/73/Indifferent} {
+  \draw[gray!70!black] (0,0) -- (7.4,0);
+  \node[rotate=90, align=center] at (-1.3,50) {responses matching the\\intended relation (\%)};
+  \foreach \x/\n/\i/\name in {0.4/6/73/helping, 2.9/29/63/hindering, 5.4/75/73/indifferent} {
     \fill[gray!55] (\x,0) rectangle ++(0.8,\n) node[above, pos=1, xshift=-0.4cm, black]{\n};
     \fill[robotBlue] (\x+0.85,0) rectangle ++(0.8,\i) node[above, pos=1, xshift=-0.4cm, black]{\i};
     \node[below] at (\x+0.82,0) {\name};
   }
+  \node at (3.7,-30) {intended relation};
   \fill[gray!55] (0.4,112) rectangle ++(0.25,6); \node[anchor=west] at (0.7,115) {naïve};
   \fill[robotBlue] (2.2,112) rectangle ++(0.25,6); \node[anchor=west] at (2.5,115) {inverse inverse};
 \end{tikzpicture}
-\\[0.1em]{\scriptsize\color{gray}\% matching responses. Help and hinder: $p<0.01$. Indifferent: n.s.}
+\\[0.1em]{\scriptsize\color{gray}Mean of 20 animations per bar. Help, hinder: $p<0.01$. 95\% CIs: paper Fig.~3.}
 \end{column}
 
 \end{columns}
@@ -415,51 +437,79 @@ Indifferent characters rarely interact, so naïve planning shows indifference we
 \end{frame}
 
 \begin{frame}{Miming by ``inverse inverse physics''}
-\begin{columns}[T,onlytextwidth]
+\begin{columns}[c,onlytextwidth]
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faTheaterMasks\ A hopper pulls a box uphill}
 \begin{itemize}\tightitem
   \item audience model: intuitive physics, not ToM
-  \item infer box weight from the motion
-  \item make a \alert{light} box look heavy
+  \item the observer infers the box weight from the motion
+  \item inverse inverse planning: make a \alert{light} box look heavy
+  \item the hopper ``pretends to struggle''
 \end{itemize}
 \end{block}
-{\centering\paperfig[0.32]{fig4a_hopper}\par}
-\figsource{based on Chandra et al.\ (2023), Fig.~4a.}
 \end{column}
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faFlask\ Behavioral experiment 2}
 \centering
-\begin{tikzpicture}[y=0.024cm, font=\scriptsize]
-  \foreach \v in {0,50,100} {
-    \draw[gray!30] (0,\v) -- (5.6,\v);
-    \node[anchor=east, gray] at (0,\v) {\v\%};
-  }
-  \draw[dashed, gray!70!black] (0,50) -- (5.6,50);
-  \node[anchor=west, gray!70!black, font=\tiny] at (5.6,50) {chance};
-  \foreach \x/\v/\c/\l in {0.4/97/gray!55/{honest heavy\\vs.\ light},
-                           2.2/95.7/robotBlue/{mime\\vs.\ light},
-                           4.0/68.6/robotBlue/{mime\\vs.\ \emph{heavy}}} {
-    \fill[\c] (\x,0) rectangle ++(1.2,\v);
-    \node[above] at (\x+0.6,\v) {\v};
-    \node[below, align=center] at (\x+0.6,0) {\l};
-  }
-\end{tikzpicture}\\[0.1em]
-{\scriptsize \% choosing the heavy box (honest) or the mime}
-\end{block}
-{\scriptsize\color{gray} Text: 35 participants. Fig.~4b caption: N = 70.}
+\paperfig[0.6]{fig4a_hopper}
+\figsource{Chandra et al.\ (2023), Fig.~4a.}
 \end{column}
 
 \end{columns}
 \end{frame}
 
-\begin{frame}{Storytelling devices as objectives (1/2)}
+\begin{frame}{Behavioral experiment 2: is the mime convincing?}
 \begin{columns}[T,onlytextwidth]
 
-\begin{column}{0.48\textwidth}
-\begin{block}{\faRandom\ Plot twist}
+\begin{column}{0.36\textwidth}
+\begin{block}{\faFlask\ Setup}
+\begin{itemize}\tightitem
+  \item 35 participants, 12 pairs each
+  \item each video: honest light, honest heavy, or mime (light box)
+  \item task: which box is heavier?
+  \item not told that hoppers can mime
+\end{itemize}
+\end{block}
+{\scriptsize\color{gray}Fig.~4b caption says N = 70.}
+\end{column}
+
+\begin{column}{0.62\textwidth}
+\centering
+\begin{tikzpicture}[y=0.028cm, font=\footnotesize]
+  \foreach \v in {0,25,50,75,100} {
+    \draw[gray!30] (0,\v) -- (5.9,\v);
+    \node[anchor=east, gray!70!black] at (0,\v) {\v};
+  }
+  \draw[gray!70!black] (0,0) -- (5.9,0);
+  \node[rotate=90, align=center] at (-1.05,50) {first box chosen\\as heavier (\%)};
+  \draw[dashed, gray!70!black] (0,50) -- (5.9,50);
+  \node[anchor=west, gray!70!black, font=\scriptsize] at (5.9,50) {chance};
+  \foreach \x/\v/\c/\l in {0.4/97/gray!55/{heavy\\vs.\ light},
+                           2.3/95.7/robotBlue/{mime\\vs.\ light},
+                           4.2/68.6/robotBlue/{mime\\vs.\ \emph{heavy}}} {
+    \fill[\c] (\x,0) rectangle ++(1.3,\v);
+    \node[above] at (\x+0.65,\v) {\v};
+    \node[below, align=center] at (\x+0.65,0) {\l};
+  }
+  \node at (2.95,-40) {pair shown (first vs.\ second)};
+\end{tikzpicture}
+\\[0.1em]{\scriptsize\color{gray}Same-condition pairs: chance. Heavy vs.\ light: $p<0.01$.\\95\% CIs: paper Fig.~4b.}
+\end{column}
+
+\end{columns}
+
+\slideendspace
+\begin{alertblock}{Reading}
+The mime looks heavier than a box that \alert{is} heavier in 68.6\% of choices.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Storytelling device: plot twist}
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.43\textwidth}
+\begin{block}{\faRandom\ Objective}
 \[
 f_{\text{twist}}=\sum_t
 \begin{cases}
@@ -467,19 +517,37 @@ f_{\text{twist}}=\sum_t
 \Prob(\rho<0\mid\sigma_{1:t}) & t> T/2
 \end{cases}
 \]
-\centering
-\begin{tikzpicture}[x=0.3cm, y=0.75cm, font=\scriptsize]
-  \draw[dashed, gray] (7.5,0) -- (7.5,1.05) node[above]{$T/2$};
-  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.8) (7,0.9) (8.2,0.15) (15,0.08)};
-  \draw[very thick, borgesRed, dashed] plot[smooth] coordinates {(0,0.3) (3,0.12) (7,0.08) (8.2,0.8) (15,0.9)};
-  \draw[axis] (0,0) -- (15.8,0) node[right]{$t$};
-  \draw[axis] (0,0) -- (0,1.1);
-  \node[beliefPurple] at (3.2,1.02) {helps};
-  \node[borgesRed, anchor=north] at (12,0.72) {hinders};
-\end{tikzpicture}\\[0.1em]
-{\scriptsize Robot ``helps'' the cheese to pink, then traps it.}
+\end{block}
+\begin{block}{\faFilm\ Generated scene}
+The robot ``helps'' the cheese to pink, then keeps pushing and traps it along the wall.
 \end{block}
 \end{column}
+
+\begin{column}{0.54\textwidth}
+\centering
+\begin{tikzpicture}[x=0.39cm, y=3.0cm, font=\footnotesize]
+  \fill[beliefPurple!8] (0,0) rectangle (7.5,1);
+  \fill[borgesRed!8] (7.5,0) rectangle (15,1);
+  \node[beliefPurple, font=\scriptsize] at (3.75,1.07) {rewards $\Prob(\rho>0)$};
+  \node[borgesRed, font=\scriptsize] at (11.25,1.07) {rewards $\Prob(\rho<0)$};
+  \foreach \v in {0,0.5,1} \node[anchor=east, gray!70!black] at (0,\v) {\v};
+  \foreach \x/\l in {0/0, 7.5/{T/2}, 15/T} \node[below, gray!70!black] at (\x,0) {$\l$};
+  \draw[gray!70!black] (0,0) rectangle (15,1);
+  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.8) (7,0.9) (8.2,0.15) (15,0.08)};
+  \draw[very thick, borgesRed, dashed] plot[smooth] coordinates {(0,0.3) (3,0.12) (7,0.08) (8.2,0.8) (15,0.9)};
+  \node[beliefPurple, anchor=south] at (3.5,0.82) {helps};
+  \node[borgesRed, anchor=north] at (12,0.86) {hinders};
+  \node[rotate=90] at (-2.1,0.5) {audience belief};
+  \node at (7.5,-0.2) {time step $t$};
+\end{tikzpicture}
+\\[0.1em]{\scriptsize\color{gray}Schematic: the curve shape $f_{\text{twist}}$ rewards, not model output.}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Storytelling devices: irony and flashback}
+\begin{columns}[T,onlytextwidth]
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faEye\ Dramatic irony}
@@ -495,13 +563,6 @@ Robot tries to help, but hinders: wrong belief about the goal.
 \end{block}
 \end{column}
 
-\end{columns}
-\seminar{Irony needs a false belief in a character, as in false-belief tasks: 29.10.}
-\end{frame}
-
-\begin{frame}{Storytelling devices as objectives (2/2)}
-\begin{columns}[T,onlytextwidth]
-
 \begin{column}{0.48\textwidth}
 \begin{block}{\faHistory\ Flashback}
 \[
@@ -509,41 +570,59 @@ f_{\text{flashback}}(\sigma)=f_{\text{help}}\big(c(\sigma)\big)
 \]
 Append a known event to $\sigma$. Search for a past that recasts it as helping.\\[0.4em]
 \centering
-\begin{tikzpicture}[font=\scriptsize]
+\begin{tikzpicture}[font=\footnotesize]
   \draw[line width=2.5pt, gray!45] (0,0) -- (3.6,0);
-  \draw[line width=2.5pt, tellerTeal] (3.6,0) -- (5.2,0);
+  \draw[line width=2.5pt, tellerTeal] (3.6,0) -- (5.4,0);
   \fill (3.6,0) circle (2.2pt);
   \node[above, align=center] at (1.8,0.1) {past $\sigma$\\(searched)};
-  \node[above, align=center, tellerTeal] at (4.4,0.1) {robot pushes\\cheese east};
-  \node[below, gray] at (1.8,-0.1) {cheese goes around the table};
-  \node[below, tellerTeal] at (4.4,-0.1) {fixed};
+  \node[above, align=center, tellerTeal] at (4.5,0.1) {robot pushes\\cheese east};
+  \node[below, gray!70!black, align=center] at (1.8,-0.1) {cheese goes around\\the table};
+  \node[below, tellerTeal] at (4.5,-0.1) {fixed};
 \end{tikzpicture}
 \end{block}
 \end{column}
 
-\begin{column}{0.48\textwidth}
-\begin{block}{\faChartLine\ Narrative arc}
-\centering
-\begin{tikzpicture}[x=0.32cm, y=0.55cm, font=\scriptsize]
-  \draw[gray!40] (0,0) -- (15,0);
-  \draw[very thick, robotBlue, domain=0:15, samples=60, smooth] plot (\x, {sin(\x/15*540)});
-  \draw[axis] (0,-1.15) -- (15.8,-1.15) node[right]{$t$};
-  \draw[axis] (0,-1.15) -- (0,1.3);
-  \node[robotBlue, anchor=west] at (0.3,1.25) {robot's fortune};
-  \node[alert, anchor=east] at (4.9,-0.65) {table falls};
-  \draw[-{Stealth[length=1.5mm]}, alert] (4.95,-0.7) -- (7.1,-0.95);
-\end{tikzpicture}\\[0.2em]
-\RaggedRight
+\end{columns}
+\seminar{Irony needs a false belief in a character, as in false-belief tasks: 29.10.}
+\end{frame}
+
+\begin{frame}{Storytelling device: narrative arc}
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.44\textwidth}
+\begin{block}{\faChartLine\ Objective}
+\[
+\begin{aligned}
+f_{\text{arc}}=\sum_t\ &\sin\!\big(\tfrac{t}{T}3\pi\big)\,\mathbb{E}\big[V^H_{\text{robot}}(s_t)\mid\sigma_{1:t}\big]\\
+&-0.1\,D_{\mathrm{KL}}(H_{1:t-1}\,\|\,H_{1:t})
+\end{aligned}
+\]
 \begin{itemize}\tightitem
   \item rise, fall, rise: Vonnegut's story shapes
   \item KL penalty keeps apparent goals stable
-  \item \alert{deus ex machina}: no character expects the table
+  \item \alert{deus ex machina}: a table falls onto pink; no character expects it
 \end{itemize}
 \end{block}
 \end{column}
 
+\begin{column}{0.52\textwidth}
+\centering
+\begin{tikzpicture}[x=0.38cm, y=1.35cm, font=\footnotesize]
+  \foreach \v in {-1,0,1} {
+    \draw[gray!30] (0,\v) -- (15,\v);
+    \node[anchor=east, gray!70!black] at (0,\v) {$\v$};
+  }
+  \foreach \x/\l in {0/0, 5/{T/3}, 10/{2T/3}, 15/T} \node[below, gray!70!black] at (\x,-1) {$\l$};
+  \draw[gray!70!black] (0,-1) rectangle (15,1);
+  \draw[very thick, robotBlue, domain=0:15, samples=80, smooth] plot (\x, {sin(\x/15*540)});
+  \node[rotate=90, align=center] at (-1.9,0) {weight on robot's\\expected value};
+  \node at (7.5,-1.55) {time step $t$};
+\end{tikzpicture}
+\\[0.1em]{\scriptsize\color{gray}Exact weight $\sin(3\pi t/T)$ from $f_{\text{arc}}$. Positive: reward a high value. Negative: reward a low value.}
+\end{column}
+
 \end{columns}
-\figsource{All examples: same random seed (0). Full $f_{\text{arc}}$ in the appendix.}
+\figsource{All device examples: same random seed (0).}
 \end{frame}
 
 % ==================================================
@@ -620,9 +699,11 @@ Like the hopper: a murder that \emph{means} a place name.
 
 \begin{column}{0.55\textwidth}
 \centering
-\begin{tikzpicture}[x=0.95cm,y=2.2cm,font=\scriptsize]
-  \draw[-{Stealth}] (0,0) -- (6.4,0) node[below=0.35cm, anchor=north east]{story time};
-  \draw[-{Stealth}] (0,0) -- (0,1.15) node[above, align=center]{\belief{reader's belief:}\\ \belief{Yu Tsun is Albert's friend}};
+\begin{tikzpicture}[x=0.95cm,y=2.2cm,font=\footnotesize]
+  \draw[-{Stealth}] (0,0) -- (6.4,0) node[below=0.4cm, anchor=north east]{story time (events)};
+  \draw[-{Stealth}] (0,0) -- (0,1.15);
+  \foreach \v in {0,0.5,1} \node[anchor=east, gray!70!black] at (0,\v) {\v};
+  \node[rotate=90, align=center, beliefPurple] at (-1.1,0.5) {reader's P(Yu Tsun\\is Albert's friend)};
   \draw[dashed, gray] (0,0.5) -- (6.2,0.5);
   \draw[very thick, beliefPurple] plot[smooth] coordinates
     {(0,0.5) (1,0.6) (2,0.75) (3,0.85) (4,0.92) (4.6,0.95) (4.75,0.08) (6.2,0.05)};
