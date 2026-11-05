@@ -70,12 +70,15 @@ The reader's belief about Yu Tsun's goal changes over the story. Each step maps 
 4. Plot twists need a wrong belief first. Is a good twist a script that *maximizes* the KL-divergence at one time step?
 
 ## Talk outline
-Main slides use words and pictures, not formulas. All formulas are in the appendix for Q&A.
-1. Background: Heider & Simmel; theory of mind as inverse planning (link to 03.12); acting in vs. acting out (Kukkonen); the three levels.
-2. Methodology: grid-world kitchen and audience model; the storyteller's search (beam search, score = area under the belief curve); second audience: intuitive physics (hopper); devices as target shapes of the belief curve.
-3. Results: naïve vs. inverse inverse model output; Exp. 1; Exp. 2; device demonstrations (one seed, no human test).
-4. The Garden of Forking Paths: plot, three readings.
-5. Discussion: evidence, limits, questions.
+Talk length: about 40 minutes, 20 minutes per speaker. Main slides use words and pictures, not formulas. All formulas are in the appendix for Q&A.
+
+Proposed split: speaker 1 = Background + Methodology (19 content slides). Speaker 2 = Results + Garden + Discussion (15 content slides).
+
+1. Background (8): Heider & Simmel; earlier story generators and the missing audience model; Kukkonen's probability design; planning (MDP, roughly rational); theory of mind as inverse planning (link to 03.12); earlier work on shaping inferences (RSA, legible motion, communicative actions); acting in vs. acting out; the three levels.
+2. Methodology (11): four ingredients; the grid-world kitchen; how the characters think (two levels); the audience model (30 hypotheses); the script; the objective (area under the belief curve); beam search; the naïve baseline; the hopper; inverse inverse physics; devices as target shapes; irony and deus ex machina machinery.
+3. Results (7): naïve vs. inverse inverse model output; hindering example; Exp. 1; Exp. 2; device demonstrations in two slides (one seed, no human test).
+4. The Garden of Forking Paths (4): plot, three readings.
+5. Discussion (3): evidence, limits, questions.
 
 ## Open tasks
 - [ ] Ask organizer for talk length and format.
