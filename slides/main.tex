@@ -115,7 +115,34 @@
 \end{frame}
 
 % ==================================================
-\section{Motivation}
+% Roadmap
+% ==================================================
+
+\begin{frame}{Roadmap}
+\centering
+\begin{tikzpicture}[
+  rstep/.style={draw=gray!60, rounded corners=3pt, fill=softGray, minimum width=2.5cm,
+    minimum height=1.25cm, align=center, font=\small\bfseries},
+  sub/.style={font=\scriptsize, align=center, text width=2.6cm, gray!30!black},
+  arr/.style={-{Stealth[length=2.2mm]}, thick, gray!70!black},
+  scale=0.94, transform shape,
+]
+  \node[rstep] (b) at (0,0) {\faCompass\\Background};
+  \node[rstep] (m) at (3.05,0) {\faCogs\\Methodology};
+  \node[rstep] (r) at (6.1,0) {\faChartBar\\Results};
+  \node[rstep, fill=borgesRed!12, draw=borgesRed] (g) at (9.15,0) {\borges{\faBook}\\\borges{Garden of}\\[-0.2em]\borges{Forking Paths}};
+  \node[rstep] (d) at (12.2,0) {\faComments\\Discussion};
+  \foreach \u/\v in {b/m, m/r, r/g, g/d} \draw[arr] (\u) -- (\v);
+  \node[sub, below=0.25cm of b] {why stories need minds; theory of mind as inverse planning};
+  \node[sub, below=0.25cm of m] {the grid world, the audience model, the storyteller's search};
+  \node[sub, below=0.25cm of r] {model output, two human experiments, storytelling devices};
+  \node[sub, below=0.25cm of g] {Borges read with the paper};
+  \node[sub, below=0.25cm of d] {what the evidence shows, limits, questions};
+\end{tikzpicture}
+\end{frame}
+
+% ==================================================
+\section{Background}
 % ==================================================
 
 \begin{frame}{Two triangles and a circle}
@@ -150,6 +177,53 @@ First try: a rational planner.
 What does a storyteller do that a rational agent does not?
 \end{block}
 \seminar{Animations as visual ToM tests: 19.11.\ (multimodal ToM benchmark)}
+\end{frame}
+
+\begin{frame}{Theory of mind as inverse planning}
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.50\textwidth}
+\centering
+\begin{tikzpicture}
+  \begin{scope}[scale=0.42]
+    \draw[cellgrid] (0,0) grid (7,5);
+    \fill[goalPink!45] (6,4) rectangle (7,5);
+    \fill[goalGreen!45] (6,0) rectangle (7,1);
+    \draw[walk, robotBlue] (0.5,2.5) -- (3.5,2.5) -- (3.5,3.4);
+    \node[circle, fill=robotBlue, inner sep=2pt] at (0.5,2.5) {};
+    \node[font=\scriptsize, above] at (1.5,2.5) {1};
+    \node[font=\scriptsize, right] at (3.5,3.2) {4};
+  \end{scope}
+  \begin{scope}[xshift=3.6cm, y=1.9cm, font=\scriptsize]
+    \draw[gray!70!black] (0,0) -- (2.6,0);
+    \foreach \x/\p/\l in {0.15/0.5/{after\\step 1}, 1.45/0.85/{after\\step 4}} {
+      \fill[goalPink!80] (\x,0) rectangle ++(0.45,\p);
+      \fill[goalGreen!80] (\x+0.5,0) rectangle ++(0.45,1-\p);
+      \node[below, align=center] at (\x+0.48,0) {\l};
+    }
+    \node[align=center, beliefPurple] at (1.3,1.2) {observer's guess:\\which goal?};
+  \end{scope}
+\end{tikzpicture}
+{\scriptsize\color{gray}Schematic, not data.\par}
+\end{column}
+
+\begin{column}{0.46\textwidth}
+\begin{block}{\faBrain\ Bayes' rule, in words}
+\begin{itemize}\tightitem
+  \item assume the agent is roughly efficient
+  \item a goal gains belief when the moves \alert{fit} it
+  \item update the guess after every move
+\end{itemize}
+\end{block}
+\end{column}
+
+\end{columns}
+
+\slideendspace
+\begin{alertblock}{\faLightbulb\ This paper}
+Inverse planning is not used to \emph{read} minds, but as a model of the \alert{audience}.
+\end{alertblock}
+\seminar{Bayesian ToM (Baker et al.): 03.12. \quad LLM-augmented inverse planning: 17.12. \quad \texttt{memo} hands-on: 14.01.}
 \end{frame}
 
 \begin{frame}{Acting \emph{in} vs.\ acting \emph{out} a situation}
@@ -196,10 +270,6 @@ Good stories design the \alert{journey of the reader's beliefs}.
 \end{alertblock}
 \end{frame}
 
-% ==================================================
-\section{Background}
-% ==================================================
-
 \begin{frame}{Planning, inverse planning, inverse inverse planning}
 \centering
 \begin{tikzpicture}[
@@ -219,17 +289,17 @@ Good stories design the \alert{journey of the reader's beliefs}.
   % inverse planning
   \node[lab] at (-0.2,-1.5) {Inverse planning\\[-0.2em]{\scriptsize\mdseries ToM: infer the goal}};
   \node[box] (a2) at (1.3,-1.5) {actions};
-  \node[box, fill=beliefPurple!12] (b2) at (5.5,-1.5) {\belief{$\Prob(\text{goal}\mid\text{actions})$}};
+  \node[box, fill=beliefPurple!12] (b2) at (5.5,-1.5) {\belief{guess of the goal}};
   \draw[arr] (a2) -- node[arrlab]{observer} (b2);
 
   % inverse inverse planning
   \node[lab] at (-0.2,-3.0) {Inverse inverse planning\\[-0.2em]{\scriptsize\mdseries ToM of a ToM: shape the inference}};
-  \node[box, fill=tellerTeal!12] (t3) at (1.3,-3.0) {\teller{objective $f$}};
-  \node[box] (a3) at (5.5,-3.0) {script $\sigma$};
+  \node[box, fill=tellerTeal!12] (t3) at (1.3,-3.0) {\teller{target belief}};
+  \node[box] (a3) at (5.5,-3.0) {script};
   \node[box, fill=beliefPurple!12] (b3) at (9.7,-3.0) {\belief{audience belief}};
   \draw[arr] (t3) -- node[arrlab]{storyteller} (a3);
   \draw[arr] (a3) -- node[arrlab]{audience\\model} (b3);
-  \draw[arr, dashed, tellerTeal] (b3.south) -- ++(0,-0.45) -| node[pos=0.25, below, font=\scriptsize]{search $\sigma$ to maximize $f(\sigma)$} (t3.south);
+  \draw[arr, dashed, tellerTeal] (b3.south) -- ++(0,-0.45) -| node[pos=0.25, below, font=\scriptsize]{try scripts until the audience belief matches the target} (t3.south);
 \end{tikzpicture}
 
 \slideendspace
@@ -238,45 +308,15 @@ The storyteller plans \emph{through} a model of the audience's theory of mind.
 \end{block}
 \end{frame}
 
-\begin{frame}{Bayesian inverse planning}
+% ==================================================
+\section{Methodology}
+% ==================================================
+
+\begin{frame}{The stage: a grid-world kitchen}
 \begin{columns}[T,onlytextwidth]
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faBrain\ Theory of mind as Bayes' rule}
-\[
-\belief{\Prob(\text{goal}\mid\text{action})} \;\propto\;
-\Prob(\text{action}\mid\text{goal})\,\Prob(\text{goal})
-\]
-\begin{itemize}\tightitem
-  \item likelihood: softmax-rational agent
-  \item prior: plausible goals
-\end{itemize}
-\end{block}
-\end{column}
-
-\begin{column}{0.48\textwidth}
-\begin{block}{\faHistory\ Earlier in this seminar}
-\begin{itemize}\tightitem
-  \item 03.12.: Bayesian ToM (Baker et al.)
-  \item 17.12.: LLM-augmented inverse planning
-  \item 14.01.: \texttt{memo} hands-on
-\end{itemize}
-\end{block}
-\end{column}
-
-\end{columns}
-
-\slideendspace
-\begin{alertblock}{\faLightbulb\ This paper}
-Inverse planning is not used to \emph{read} minds, but as the \alert{audience model}.
-\end{alertblock}
-\end{frame}
-
-\begin{frame}{The audience model: help or hinder?}
-\begin{columns}[T,onlytextwidth]
-
-\begin{column}{0.48\textwidth}
-\begin{block}{\faRobot\ Grid-world kitchen}
+\begin{block}{\faRobot\ Two characters}
 \centering
 \begin{tikzpicture}[scale=0.36]
   \draw[cellgrid] (0,0) grid (8,4);
@@ -292,62 +332,146 @@ goal tiles \pink{pink} and \green{green}, a gray table}
 \end{column}
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faUsers\ Social reward}
+\begin{block}{\faUsers\ Social attitude}
+The robot cares about the cheese's success:
 \begin{itemize}\tightitem
-  \item robot gets $\rho\cdot r_{\text{cheese}}$ extra
-  \item $\rho>0$ helps, $\rho<0$ hinders
-  \item robot models the cheese \alert{modelling the robot}
+  \item positively: it \green{helps}
+  \item negatively: it \pink{hinders}
+  \item not at all: it is indifferent
 \end{itemize}
+The robot models the cheese \alert{modelling the robot}.
 \end{block}
 \end{column}
 
 \end{columns}
 
 \slideendspace
-\begin{block}{Observer}
-\centering
-\belief{$\Prob(H\mid s\to a)$} $\;\propto\;\Prob(s\to a\mid H)\,\Prob(H)$, \quad $H=\langle G_{\text{cheese}}, G_{\text{robot}}, \rho\rangle$
+\begin{block}{\faEye\ The audience model: a simulated observer}
+After each move it updates its guess of three things: the cheese's goal, the robot's goal, and the robot's \belief{attitude}.
 \end{block}
-\figsource{Audience model from Ullman et al.\ (2009). Full hypothesis space in the appendix.}
+\figsource{Audience model from Ullman et al.\ (2009).}
 \end{frame}
 
-% ==================================================
-\section{Inverse inverse planning}
-% ==================================================
-
-\begin{frame}{Optimizing a script}
+\begin{frame}{The storyteller: search over scripts}
 \begin{columns}[T,onlytextwidth]
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faFilm\ Script}
-$\sigma = \big(s_0,\ \sigma_1,\dots,\sigma_T\big)$\\[0.3em]
-$\sigma_t = \langle \robot{a^{\text{robot}}_t}, \cheese{a^{\text{cheese}}_t}, s_t\rangle$
-\begin{itemize}\tightitem
-  \item the setting $s_0$ is optimized too
-  \item so is the outcome of each move
-\end{itemize}
-\end{block}
+\centering
+\begin{tikzpicture}[node distance=0.28cm]
+  \node[chainbox=5.2cm] (c) {\textbf{candidate scripts}\\{\scriptsize start setting + every move + whether each move succeeds}};
+  \node[chainbox=5.2cm, below=of c, fill=beliefPurple!12, draw=beliefPurple] (a) {\textbf{audience model watches}\\{\scriptsize its guess after every step}};
+  \node[chainbox=5.2cm, below=of a, fill=tellerTeal!12, draw=tellerTeal] (s) {\textbf{score each script}\\{\scriptsize how strongly does it believe the target?}};
+  \node[chainbox=5.2cm, below=of s] (k) {\textbf{keep the best few, add one step}};
+  \foreach \u/\v in {c/a, a/s, s/k} \draw[chainarr] (\u) -- (\v);
+  \draw[chainarr, dashed] (k.west) -- ++(-0.35,0) |- node[pos=0.25, left, font=\scriptsize, align=right]{repeat\\15 steps} (c.west);
+\end{tikzpicture}
+\\[0.1em]{\scriptsize\color{gray}Beam search.}
 \end{column}
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faBullseye\ Objective: depict ``helping''}
-\[
-f_{\text{help}}(\sigma)=\sum_{t=1}^{T}\belief{\Prob(\rho_{\text{robot}}>0\mid\sigma_{1:t})}
-\]
-\begin{itemize}\tightitem
-  \item strong belief at every step
-  \item beam search over scripts
-\end{itemize}
+\begin{block}{\faBullseye\ Target: ``the robot helps''}
+\centering
+\begin{tikzpicture}[x=0.27cm, y=2.0cm, font=\footnotesize]
+  \fill[beliefPurple!20] (0,0) -- plot[smooth] coordinates {(0,0.33) (2,0.62) (4,0.85) (7,0.93) (15,0.96)} -- (15,0) -- cycle;
+  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.33) (2,0.62) (4,0.85) (7,0.93) (15,0.96)};
+  \draw[gray!70!black] (0,0) rectangle (15,1);
+  \foreach \v in {0,1} \node[anchor=east, gray!70!black] at (0,\v) {\v};
+  \node[rotate=90, align=center] at (-2.6,0.5) {belief:\\robot helps};
+  \node at (7.5,-0.17) {time step};
+  \node[align=center] at (9.5,0.45) {score =\\shaded area};
+\end{tikzpicture}\\[0.2em]
+{\scriptsize high early, high throughout}
 \end{block}
 \end{column}
 
 \end{columns}
 
 \slideendspace
-\begin{alertblock}{\faLightbulb\ Abstract objective}
-$f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that \alert{shows} helping.
+\begin{alertblock}{\faLightbulb\ Only the belief is specified}
+The target says nothing about goals or positions. The search finds a scene that \alert{shows} helping.
 \end{alertblock}
 \end{frame}
+
+\begin{frame}{A second audience: intuitive physics}
+\begin{columns}[c,onlytextwidth]
+
+\begin{column}{0.48\textwidth}
+\begin{block}{\faTheaterMasks\ A hopper pulls a box uphill}
+\begin{itemize}\tightitem
+  \item audience model: intuitive physics, not ToM
+  \item the observer guesses the box weight from the motion
+  \item target: make a \alert{light} box look heavy
+  \item the hopper ``pretends to struggle''
+\end{itemize}
+\end{block}
+\begin{block}{\faCogs\ Same recipe}
+Swap the audience model, keep the search. ``Inverse inverse physics.''
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\centering
+\paperfig[0.6]{fig4a_hopper}
+\figsource{Chandra et al.\ (2023), Fig.~4a.}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{Storytelling devices as targets for the belief curve}
+\centering
+\begin{tikzpicture}[font=\footnotesize]
+  % ---- plot twist
+  \begin{scope}[x=0.17cm, y=1.3cm]
+    \draw[gray!70!black] (0,0) rectangle (15,1);
+    \draw[gray!50, dashed] (7.5,0) -- (7.5,1);
+    \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.8) (7,0.9) (8.2,0.15) (15,0.08)};
+    \draw[very thick, borgesRed, dashed] plot[smooth] coordinates {(0,0.3) (3,0.12) (7,0.08) (8.2,0.8) (15,0.9)};
+    \node[beliefPurple, font=\scriptsize] at (3.5,1.15) {helps};
+    \node[borgesRed, font=\scriptsize] at (11.5,1.15) {hinders};
+    \node[font=\small\bfseries] at (7.5,1.55) {\faRandom\ Plot twist};
+    \node[text width=2.9cm, align=center, font=\scriptsize] at (7.5,-0.4) {``helps'' first, then ``hinders''};
+  \end{scope}
+  % ---- irony
+  \begin{scope}[xshift=3.6cm, x=0.17cm, y=1.3cm]
+    \draw[gray!70!black] (0,0) rectangle (15,1);
+    \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.85) (15,0.95)};
+    \draw[very thick, robotBlue, dashed] (0,0.12) -- (15,0.12);
+    \node[beliefPurple, font=\scriptsize, anchor=south] at (8,0.95) {audience};
+    \node[robotBlue, font=\scriptsize, anchor=south] at (8,0.13) {robot};
+    \node[font=\small\bfseries] at (7.5,1.55) {\faEye\ Dramatic irony};
+    \node[text width=2.9cm, align=center, font=\scriptsize] at (7.5,-0.4) {audience knows the cheese's goal; the robot does not};
+  \end{scope}
+  % ---- flashback
+  \begin{scope}[xshift=7.2cm, y=1.3cm]
+    \draw[line width=2.5pt, gray!45] (0,0.5) -- (1.7,0.5);
+    \draw[line width=2.5pt, tellerTeal] (1.7,0.5) -- (2.55,0.5);
+    \fill (1.7,0.5) circle (2.2pt);
+    \node[above, align=center, font=\scriptsize] at (0.85,0.55) {past\\(searched)};
+    \node[above, align=center, tellerTeal, font=\scriptsize] at (2.15,0.55) {known\\event};
+    \node[font=\small\bfseries] at (1.275,1.55) {\faHistory\ Flashback};
+    \node[text width=2.9cm, align=center, font=\scriptsize] at (1.275,-0.4) {find a past that makes a known event look helpful};
+  \end{scope}
+  % ---- arc
+  \begin{scope}[xshift=10.8cm, x=0.17cm, y=0.65cm]
+    \draw[gray!70!black] (0,-1) rectangle (15,1);
+    \draw[gray!40] (0,0) -- (15,0);
+    \draw[very thick, robotBlue, domain=0:15, samples=60, smooth] plot (\x, {sin(\x/15*540)});
+    \node[font=\small\bfseries] at (7.5,3.1) {\faChartLine\ Narrative arc};
+    \node[text width=2.9cm, align=center, font=\scriptsize] at (7.5,-1.8) {robot's fortune, as the audience sees it: rises, falls, rises (Vonnegut)};
+  \end{scope}
+\end{tikzpicture}
+
+\vspace{1.2em}
+\begin{alertblock}{\faLightbulb\ One method, many devices}
+Each device is only a different \alert{target shape} for the audience's belief over time. The search stays the same.
+\end{alertblock}
+\figsource{Schematics of the targets, not model output. The exact objectives are in the appendix.}
+\end{frame}
+
+% ==================================================
+\section{Results}
+% ==================================================
 
 \begin{frame}[t]{Naïve planning: the observer stays unsure}
 \vspace{0.2em}
@@ -361,9 +485,9 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 \begin{column}{0.50\textwidth}
 \begin{block}{\faChartLine\ How to read the plot}
 \begin{itemize}\tightitem
-  \item $y$: observer's posterior for the robot's alignment: hindering, ambivalent, helping
-  \item $x$: time step of the animation
-  \item \alert{helping and ambivalent} share the probability: the robot only walks to green
+  \item vertical: the observer's belief in the robot's attitude: hindering, ambivalent, helping
+  \item horizontal: time step of the animation
+  \item \alert{helping and ambivalent} share the belief: the robot only walks to green
 \end{itemize}
 \end{block}
 \end{column}
@@ -383,9 +507,9 @@ $f_{\text{help}}$ fixes no goals or positions. The optimizer finds a scene that 
 \begin{column}{0.50\textwidth}
 \begin{block}{\faChartLine\ Same axes as before}
 \begin{itemize}\tightitem
-  \item the setting is optimized too: the robot pushes the cheese to pink, then steps back
+  \item the setting is chosen too: the robot pushes the cheese to pink, then steps back
   \item \alert{helping} stays near 1 for almost the whole video
-  \item $f_{\text{help}}$ = area under the helping curve
+  \item score = area under the helping curve
 \end{itemize}
 \end{block}
 \end{column}
@@ -436,29 +560,6 @@ Indifferent characters rarely interact, so naïve planning shows indifference we
 \seminar{Human vs.\ model comparison of ToM: 29.10.}
 \end{frame}
 
-\begin{frame}{Miming by ``inverse inverse physics''}
-\begin{columns}[c,onlytextwidth]
-
-\begin{column}{0.48\textwidth}
-\begin{block}{\faTheaterMasks\ A hopper pulls a box uphill}
-\begin{itemize}\tightitem
-  \item audience model: intuitive physics, not ToM
-  \item the observer infers the box weight from the motion
-  \item inverse inverse planning: make a \alert{light} box look heavy
-  \item the hopper ``pretends to struggle''
-\end{itemize}
-\end{block}
-\end{column}
-
-\begin{column}{0.48\textwidth}
-\centering
-\paperfig[0.6]{fig4a_hopper}
-\figsource{Chandra et al.\ (2023), Fig.~4a.}
-\end{column}
-
-\end{columns}
-\end{frame}
-
 \begin{frame}{Behavioral experiment 2: is the mime convincing?}
 \begin{columns}[T,onlytextwidth]
 
@@ -505,124 +606,33 @@ The mime looks heavier than a box that \alert{is} heavier in 68.6\% of choices.
 \end{alertblock}
 \end{frame}
 
-\begin{frame}{Storytelling device: plot twist}
-\begin{columns}[T,onlytextwidth]
-
-\begin{column}{0.43\textwidth}
-\begin{block}{\faRandom\ Objective}
-\[
-f_{\text{twist}}=\sum_t
-\begin{cases}
-\Prob(\rho>0\mid\sigma_{1:t}) & t\le T/2\\
-\Prob(\rho<0\mid\sigma_{1:t}) & t> T/2
-\end{cases}
-\]
-\end{block}
-\begin{block}{\faFilm\ Generated scene}
-The robot ``helps'' the cheese to pink, then keeps pushing and traps it along the wall.
-\end{block}
-\end{column}
-
-\begin{column}{0.54\textwidth}
-\centering
-\begin{tikzpicture}[x=0.39cm, y=3.0cm, font=\footnotesize]
-  \fill[beliefPurple!8] (0,0) rectangle (7.5,1);
-  \fill[borgesRed!8] (7.5,0) rectangle (15,1);
-  \node[beliefPurple, font=\scriptsize] at (3.75,1.07) {rewards $\Prob(\rho>0)$};
-  \node[borgesRed, font=\scriptsize] at (11.25,1.07) {rewards $\Prob(\rho<0)$};
-  \foreach \v in {0,0.5,1} \node[anchor=east, gray!70!black] at (0,\v) {\v};
-  \foreach \x/\l in {0/0, 7.5/{T/2}, 15/T} \node[below, gray!70!black] at (\x,0) {$\l$};
-  \draw[gray!70!black] (0,0) rectangle (15,1);
-  \draw[very thick, beliefPurple] plot[smooth] coordinates {(0,0.5) (3,0.8) (7,0.9) (8.2,0.15) (15,0.08)};
-  \draw[very thick, borgesRed, dashed] plot[smooth] coordinates {(0,0.3) (3,0.12) (7,0.08) (8.2,0.8) (15,0.9)};
-  \node[beliefPurple, anchor=south] at (3.5,0.82) {helps};
-  \node[borgesRed, anchor=north] at (12,0.86) {hinders};
-  \node[rotate=90] at (-2.1,0.5) {audience belief};
-  \node at (7.5,-0.2) {time step $t$};
-\end{tikzpicture}
-\\[0.1em]{\scriptsize\color{gray}Schematic: the curve shape $f_{\text{twist}}$ rewards, not model output.}
-\end{column}
-
-\end{columns}
-\end{frame}
-
-\begin{frame}{Storytelling devices: irony and flashback}
+\begin{frame}{Storytelling devices: what the search produced}
 \begin{columns}[T,onlytextwidth]
 
 \begin{column}{0.48\textwidth}
+\begin{block}{\faRandom\ Plot twist}
+The robot ``helps'' the cheese to pink, then keeps pushing and traps it along the wall.
+\end{block}
 \begin{block}{\faEye\ Dramatic irony}
-Audience knows what a character does not.
-\[
-\begin{aligned}
-f_{\text{irony}}=\sum_t\ &\Prob(G_c{=}g\mid\sigma_{1:t})\\
-&+\Prob(\rho<0\mid\sigma_{1:t},G_c{=}g)\\
-&+\Prob(\rho>0\mid\sigma_{1:t},G_c{=}p)
-\end{aligned}
-\]
-Robot tries to help, but hinders: wrong belief about the goal.
+The robot tries to help, but hinders: it believes the wrong goal.
 \end{block}
 \end{column}
 
 \begin{column}{0.48\textwidth}
 \begin{block}{\faHistory\ Flashback}
-\[
-f_{\text{flashback}}(\sigma)=f_{\text{help}}\big(c(\sigma)\big)
-\]
-Append a known event to $\sigma$. Search for a past that recasts it as helping.\\[0.4em]
-\centering
-\begin{tikzpicture}[font=\footnotesize]
-  \draw[line width=2.5pt, gray!45] (0,0) -- (3.6,0);
-  \draw[line width=2.5pt, tellerTeal] (3.6,0) -- (5.4,0);
-  \fill (3.6,0) circle (2.2pt);
-  \node[above, align=center] at (1.8,0.1) {past $\sigma$\\(searched)};
-  \node[above, align=center, tellerTeal] at (4.5,0.1) {robot pushes\\cheese east};
-  \node[below, gray!70!black, align=center] at (1.8,-0.1) {cheese goes around\\the table};
-  \node[below, tellerTeal] at (4.5,-0.1) {fixed};
-\end{tikzpicture}
+A fixed last move, ``robot pushes the cheese east'', looks helpful after a past where the cheese goes around the table.
+\end{block}
+\begin{block}{\faChartLine\ Narrative arc}
+\alert{Deus ex machina}: a table falls onto pink. No character expects it.
 \end{block}
 \end{column}
 
 \end{columns}
-\seminar{Irony needs a false belief in a character, as in false-belief tasks: 29.10.}
-\end{frame}
 
-\begin{frame}{Storytelling device: narrative arc}
-\begin{columns}[T,onlytextwidth]
-
-\begin{column}{0.44\textwidth}
-\begin{block}{\faChartLine\ Objective}
-\[
-\begin{aligned}
-f_{\text{arc}}=\sum_t\ &\sin\!\big(\tfrac{t}{T}3\pi\big)\,\mathbb{E}\big[V^H_{\text{robot}}(s_t)\mid\sigma_{1:t}\big]\\
-&-0.1\,D_{\mathrm{KL}}(H_{1:t-1}\,\|\,H_{1:t})
-\end{aligned}
-\]
-\begin{itemize}\tightitem
-  \item rise, fall, rise: Vonnegut's story shapes
-  \item KL penalty keeps apparent goals stable
-  \item \alert{deus ex machina}: a table falls onto pink; no character expects it
-\end{itemize}
-\end{block}
-\end{column}
-
-\begin{column}{0.52\textwidth}
-\centering
-\begin{tikzpicture}[x=0.38cm, y=1.35cm, font=\footnotesize]
-  \foreach \v in {-1,0,1} {
-    \draw[gray!30] (0,\v) -- (15,\v);
-    \node[anchor=east, gray!70!black] at (0,\v) {$\v$};
-  }
-  \foreach \x/\l in {0/0, 5/{T/3}, 10/{2T/3}, 15/T} \node[below, gray!70!black] at (\x,-1) {$\l$};
-  \draw[gray!70!black] (0,-1) rectangle (15,1);
-  \draw[very thick, robotBlue, domain=0:15, samples=80, smooth] plot (\x, {sin(\x/15*540)});
-  \node[rotate=90, align=center] at (-1.9,0) {weight on robot's\\expected value};
-  \node at (7.5,-1.55) {time step $t$};
-\end{tikzpicture}
-\\[0.1em]{\scriptsize\color{gray}Exact weight $\sin(3\pi t/T)$ from $f_{\text{arc}}$. Positive: reward a high value. Negative: reward a low value.}
-\end{column}
-
-\end{columns}
-\figsource{All device examples: same random seed (0).}
+\slideendspace
+\begin{alertblock}{\faExclamationTriangle\ Status of this evidence}
+Demonstrations only: one random seed (0) each, \alert{no human test}.
+\end{alertblock}
 \end{frame}
 
 % ==================================================
@@ -667,7 +677,7 @@ f_{\text{arc}}=\sum_t\ &\sin\!\big(\tfrac{t}{T}3\pi\big)\,\mathbb{E}\big[V^H_{\t
 \centering
 \begin{tikzpicture}[node distance=0.3cm]
   \node[chainbox, fill=tellerTeal!12, draw=tellerTeal] (t) {\teller{storyteller}: Yu Tsun};
-  \node[chainbox, below=of t] (s) {script $\sigma$: train, visit, murder, arrest};
+  \node[chainbox, below=of t] (s) {script: train, visit, murder, arrest};
   \node[chainbox, below=of s] (o) {observations: newspaper reports};
   \node[chainbox, below=of o, fill=beliefPurple!12, draw=beliefPurple] (b) {\belief{audience}: the Chief in Berlin\\\belief{target belief}: ``the target is \emph{Albert}''};
   \foreach \u/\v in {t/s, s/o, o/b} \draw[chainarr] (\u) -- (\v);
@@ -703,7 +713,7 @@ Like the hopper: a murder that \emph{means} a place name.
   \draw[-{Stealth}] (0,0) -- (6.4,0) node[below=0.4cm, anchor=north east]{story time (events)};
   \draw[-{Stealth}] (0,0) -- (0,1.15);
   \foreach \v in {0,0.5,1} \node[anchor=east, gray!70!black] at (0,\v) {\v};
-  \node[rotate=90, align=center, beliefPurple] at (-1.1,0.5) {reader's P(Yu Tsun\\is Albert's friend)};
+  \node[rotate=90, align=center, beliefPurple] at (-1.1,0.5) {reader's belief: Yu Tsun\\is Albert's friend};
   \draw[dashed, gray] (0,0.5) -- (6.2,0.5);
   \draw[very thick, beliefPurple] plot[smooth] coordinates
     {(0,0.5) (1,0.6) (2,0.75) (3,0.85) (4,0.92) (4.6,0.95) (4.75,0.08) (6.2,0.05)};
@@ -750,7 +760,7 @@ Like the hopper: a murder that \emph{means} a place name.
       child[cold] {node {} child {node {}} child {node {}}}
       child {node[on] {} child[cold] {node {}} child {node[on] {}}}};
 \end{tikzpicture}
-\\[0.2em]{\scriptsize Ts'ui Pen takes \emph{every} branch.\\ The storyteller keeps \borges{one} $\sigma$.}
+\\[0.2em]{\scriptsize Ts'ui Pen takes \emph{every} branch.\\ The storyteller keeps \borges{one} script.}
 \end{column}
 
 \begin{column}{0.48\textwidth}
@@ -781,7 +791,7 @@ Choose one path for its effect on the audience.
 \begin{itemize}\tightitem
   \item humans judge the output, not the model's own score
   \item one method, two audience models: ToM and physics
-  \item each device is a short objective you can read
+  \item each device is a short, readable target
 \end{itemize}
 \end{block}
 \end{column}
@@ -848,10 +858,10 @@ Questions
 \begin{frame}{Discussion}
 \begin{enumerate}\tightitem
   \item The model makes readable scenes. What data would show that \emph{people} tell stories this way?
-  \item Objective for Yu Tsun: which term makes the murder win?
+  \item What target belief would make Yu Tsun's murder the best script?
   \item Is the Chief a Bayesian inverse planner? What prior does he need?
   \item Can the garden be optimized, or is refusing to choose the point?
-  \item The arc objective \emph{penalizes} belief jumps ($D_{\mathrm{KL}}$). Should a twist \emph{reward} one?
+  \item The arc target \emph{punishes} sudden belief jumps. Should a twist \emph{reward} one?
   \item Could an LLM be the audience model? How would we test it? \seminar{Clever Hans risk: 05.11.}
 \end{enumerate}
 \end{frame}
@@ -864,6 +874,56 @@ Questions
 \bibliography{references}
 \end{frame}
 
+\begin{frame}{Appendix: the maths behind the slides}
+\small
+\begin{columns}[T,onlytextwidth]
+
+\begin{column}{0.48\textwidth}
+\begin{block}{\faBrain\ Audience model}
+\[
+\belief{\Prob(H\mid s\to a)}\;\propto\;\Prob(s\to a\mid H)\,\Prob(H)
+\]
+{\footnotesize $H=\langle G_{\text{cheese}}, G_{\text{robot}}, \rho\rangle$; robot reward gets $\rho\cdot r_{\text{cheese}}$ extra: $\rho>0$ helps, $\rho<0$ hinders.}
+\end{block}
+\begin{block}{\faBullseye\ Script and help objective}
+{\footnotesize $\sigma=(s_0,\sigma_1,\dots,\sigma_T)$, $\sigma_t=\langle a^{\text{robot}}_t, a^{\text{cheese}}_t, s_t\rangle$}
+\[
+f_{\text{help}}(\sigma)=\sum_{t=1}^{T}\Prob(\rho>0\mid\sigma_{1:t})
+\]
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{block}{\faRandom\ Device objectives}
+\footnotesize
+\[
+f_{\text{twist}}=\sum_t
+\begin{cases}
+\Prob(\rho>0\mid\sigma_{1:t}) & t\le T/2\\
+\Prob(\rho<0\mid\sigma_{1:t}) & t> T/2
+\end{cases}
+\]
+\[
+\begin{aligned}
+f_{\text{irony}}=\sum_t\ &\Prob(G_c{=}g\mid\sigma_{1:t})+\Prob(\rho<0\mid\sigma_{1:t},G_c{=}g)\\
+&+\Prob(\rho>0\mid\sigma_{1:t},G_c{=}p)
+\end{aligned}
+\]
+\[
+f_{\text{flashback}}(\sigma)=f_{\text{help}}\big(c(\sigma)\big)
+\]
+\[
+\begin{aligned}
+f_{\text{arc}}=\sum_t\ &\sin\!\big(\tfrac{t}{T}3\pi\big)\,\mathbb{E}\big[V^H_{\text{robot}}(s_t)\mid\sigma_{1:t}\big]\\
+&-0.1\,D_{\mathrm{KL}}(H_{1:t-1}\,\|\,H_{1:t})
+\end{aligned}
+\]
+\end{block}
+\end{column}
+
+\end{columns}
+\end{frame}
+
 \begin{frame}{Appendix: model details}
 \small
 \begin{columns}[T,onlytextwidth]
@@ -872,7 +932,7 @@ Questions
 \begin{block}{\faRobot\ Grid world}
 \begin{itemize}\tightitem
   \item multi-agent MDP, actions $\{\leftarrow,\rightarrow,\uparrow,\downarrow,\text{stay}\}$
-  \item $H=\langle G_{\text{cheese}}\in\{p,g\}, G_{\text{robot}}\in\{p,g,\emptyset\}, \rho\in\{0,\pm1,\pm3\}\rangle$
+  \item $G_{\text{cheese}}\in\{p,g\}$, $G_{\text{robot}}\in\{p,g,\emptyset\}$, $\rho\in\{0,\pm1,\pm3\}$
   \item $\Prob(s\to a\mid H)\propto\exp\big(\beta\, Q^H_c(s,a)\big)$
   \item value iteration, beam search, $T=15$
 \end{itemize}
@@ -880,11 +940,11 @@ Questions
 \end{column}
 
 \begin{column}{0.48\textwidth}
-\begin{block}{\faCogs\ Physics and arc}
+\begin{block}{\faCogs\ Physics}
 \begin{itemize}\tightitem
   \item hopper: SHAC, policy $\pi(s;\theta)$, value $V(s;\phi)$
   \item box weights 0.1 (light), 0.5 (heavy)
-  \item $f_{\text{arc}}=\sum_t \sin(\tfrac{t}{T}3\pi)\,\mathbb{E}[V^H_{\text{robot}}(s_t)\mid\sigma_{1:t}] - 0.1\,D_{\mathrm{KL}}(H_{1:t-1}\|H_{1:t})$
+  \item differentiable simulator
 \end{itemize}
 \end{block}
 \end{column}

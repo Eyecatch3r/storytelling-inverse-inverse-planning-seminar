@@ -90,24 +90,17 @@ Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). 
 \begin{mblock}{\faBrain\ Three levels}
 \begin{tabular}{@{}l@{\hspace{0.5em}}l@{}}
 \textbf{Planning} & goal $\rightarrow$ actions (act)\\
-\textbf{Inverse planning} & actions $\rightarrow$ \belief{$\Prob(\text{goal}\mid\text{actions})$} (ToM)\\
-\textbf{Inverse inverse} & \teller{objective} $\rightarrow$ actions, via an audience model\\
+\textbf{Inverse planning} & actions $\rightarrow$ \belief{guess of the goal} (ToM)\\
+\textbf{Inverse inverse} & \teller{target belief} $\rightarrow$ script, via a model of the audience\\
 \end{tabular}
 \end{mblock}
 
 \begin{mblock}{\faRobot\ Audience model (Ullman et al., 2009)}
-Grid world: a \robot{robot} that can push objects and a weak \cheese{cheese} (its moves succeed 60\% of the time), goal tiles \pink{pink} and \green{green}. The robot's reward includes $\rho\cdot r_{\text{cheese}}$, the cheese's reward weighted by $\rho$: $\rho>0$ helps, $\rho<0$ hinders, $\rho=0$ indifferent. The robot reasons about a cheese that reasons about the robot. An observer infers the hypothesis $H$ (both goals $G$ and $\rho$) from each action $a$ in state $s$:
-\[
-\belief{\Prob(H\mid s\to a)}\propto\Prob(s\to a\mid H)\,\Prob(H)
-\]
+Grid world: a \robot{robot} that can push objects and a weak \cheese{cheese} (its moves succeed 60\% of the time), goal tiles \pink{pink} and \green{green}. The robot cares about the cheese's success positively (helps), negatively (hinders) or not at all (indifferent). The robot reasons about a cheese that reasons about the robot. A simulated observer uses Bayes' rule: after each move, it updates its \belief{guess} of both goals and of the robot's attitude. Goals that fit the moves of a roughly efficient agent gain belief.
 \end{mblock}
 
-\begin{mblock}{\faBullseye\ Optimizing a script}
-A script $\sigma$ is a setting plus a sequence of moves and their outcomes, all optimized; $\sigma_{1:t}$ is the part seen so far. Beam search (keep the best few partial scripts) maximizes, for example,
-\[
-f_{\text{help}}(\sigma)=\textstyle\sum_{t}\belief{\Prob(\rho>0\mid\sigma_{1:t})}.
-\]
-The objective fixes no goals or positions. The optimizer finds a scene that \alert{shows} helping.
+\begin{mblock}{\faBullseye\ The storyteller's search}
+A script is a setting plus every move and its outcome, all chosen by the storyteller. Beam search keeps the best few partial scripts and extends them step by step. The score for ``helping'' is the area under the observer's belief curve ``the robot helps'': high early and high throughout. The target fixes no goals or positions. The search finds a scene that \alert{shows} helping. Exact objectives: deck appendix.
 \end{mblock}
 
 \begin{mblock}{\faExclamationTriangle\ Limits and critique}
@@ -122,7 +115,7 @@ The objective fixes no goals or positions. The optimizer finds a scene that \ale
 \begin{malert}{\faComments\ For discussion}
 \begin{enumerate}
   \item What data would show that \emph{people} tell stories this way?
-  \item Which objective $f$ makes Yu Tsun's murder score highest?
+  \item What target belief makes Yu Tsun's murder the best script?
   \item Is the Chief a Bayesian inverse planner? With what prior?
   \item Could an LLM be the audience model? How to test it?
 \end{enumerate}
@@ -156,10 +149,11 @@ The objective fixes no goals or positions. The optimizer finds a scene that \ale
 
 \begin{mblock}{\faRandom\ Storytelling devices as objectives}
 \begin{itemize}
-  \item \textbf{Plot twist}: $\Prob(\rho>0)$ in the first half, $\Prob(\rho<0)$ in the second.
+  \item \textbf{Plot twist}: belief ``helps'' in the first half, ``hinders'' in the second.
   \item \textbf{Dramatic irony}: the audience knows the cheese's goal; the robot does not and hinders by mistake.
-  \item \textbf{Flashback}: append a known event to $\sigma$; find a past that makes it look helpful.
-  \item \textbf{Narrative arc}: fortune rises, falls, rises; a KL penalty on belief changes keeps the goals stable; a table can fall ``from the sky'' that no character expects (deus ex machina).
+  \item \textbf{Flashback}: fix a known final event; find a past that makes it look helpful.
+  \item \textbf{Narrative arc}: fortune rises, falls, rises; a penalty on sudden belief changes keeps the goals stable; a table can fall ``from the sky'' that no character expects (deus ex machina).
+  \item One seed each, no human test.
 \end{itemize}
 \end{mblock}
 
