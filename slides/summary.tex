@@ -75,7 +75,7 @@
 
 \vspace{0.4em}
 \begin{malert}{\faLightbulb\ In one sentence}
-A storyteller plans for the \belief{audience's beliefs}, not for the characters' goals: it chooses actions so that the audience's inferences, modelled as Bayesian theory of mind, follow a designed path.
+A storyteller plans for the \belief{audience's beliefs} rather than the characters' goals. It picks actions so that what the audience infers, modelled as Bayesian theory of mind, follows a planned path.
 \end{malert}
 
 % ==================================================
@@ -84,7 +84,7 @@ A storyteller plans for the \belief{audience's beliefs}, not for the characters'
 \begin{minipage}[t]{0.49\linewidth}\vspace{0pt}
 
 \begin{mblock}{\faFilm\ Motivation}
-Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). A rational planner reaches its goals, but an efficient path leaves no doubt, so it has no suspense and no irony. Kukkonen (2014): a story is a ``probability design'' of the reader's beliefs.
+Viewers see agents with goals in simple moving shapes (Heider \& Simmel, 1944). Simulated rational agents reach their goals, but the result looks flat, with little suspense, surprise or irony. Kukkonen (2014): a story is a ``probability design'' of the reader's beliefs.
 \end{mblock}
 
 \begin{mblock}{\faBrain\ Three levels}
@@ -100,14 +100,14 @@ Grid world: a \robot{robot} that can push objects and a weak \cheese{cheese} (it
 \end{mblock}
 
 \begin{mblock}{\faBullseye\ The storyteller's search}
-A script is a setting plus every move and its outcome, all chosen by the storyteller. Beam search keeps the best few partial scripts and extends them step by step. The score for ``helping'' is the area under the observer's belief curve ``the robot helps'': high early and high throughout. The target fixes no goals or positions. The search finds a scene that \alert{shows} helping. Exact objectives: deck appendix.
+A script is a setting plus every move and its outcome, all chosen by the storyteller. Beam search keeps the best few partial scripts and extends them step by step. The score for ``helping'' is the area under the observer's belief curve ``the robot helps'': high early and high throughout. Goals and positions are left to the search, which finds a scene that \alert{shows} helping. Exact objectives: deck appendix.
 \end{mblock}
 
 \begin{mblock}{\faExclamationTriangle\ Limits and critique}
 \begin{itemize}
-  \item \textbf{Paper}: scales badly; too slow for real time; emotion is future work.
-  \item \textbf{Evidence} (critique, not from the paper): weak baseline; devices are one-seed demos, untested on humans. The method \emph{can} make readable scenes; it does not show that people plan this way.
-  \item \textbf{Borges} (interpretation): the Chief must already hold the hypothesis ``a killing encodes a name''; one lossy report, not a full trajectory.
+  \item \textbf{Paper}: it scales badly and is too slow for real time. Emotion is left for future work.
+  \item \textbf{Evidence} (critique, not from the paper): the baseline is weak, and the devices are one-seed demos that no human rated. The method \emph{can} make readable scenes. It does not show that people plan this way.
+  \item \textbf{Borges} (interpretation): the Chief must already consider ``a killing can encode a name'', and he sees one lossy report instead of a full trajectory.
   \item \textbf{Ethics} (extension, not from the paper): the same machinery can deceive.
 \end{itemize}
 \end{mblock}
@@ -125,7 +125,7 @@ A script is a setting plus every move and its outcome, all chosen by the storyte
 \begin{minipage}[t]{0.49\linewidth}\vspace{0pt}
 
 \begin{mblock}{\faFlask\ Results}
-\textbf{Exp.\ 1}: 98 participants, 120 animations, 15 per person. Indifference is easy (characters rarely interact); not all scenes allow helping.\\[0.3em]
+\textbf{Exp.\ 1}: 98 participants, 120 animations, 15 per person. Indifference is easy because the characters rarely interact. Helping is hardest, since not every scene allows it.\\[0.3em]
 {\centering
 \begin{tikzpicture}[x=0.8cm, y=0.024cm, font=\footnotesize]
   \foreach \v in {0,50,100} {
@@ -143,26 +143,26 @@ A script is a setting plus every move and its outcome, all chosen by the storyte
   \fill[black!35] (0.4,122) rectangle ++(0.25,10); \node[anchor=west] at (0.7,127) {naïve};
   \fill[robotBlue] (2.0,122) rectangle ++(0.25,10); \node[anchor=west] at (2.3,127) {inverse inverse};
 \end{tikzpicture}\par}
-\note{Mean of 20 animations per bar. Helping, hindering: $p<0.01$; indifferent: n.s.}\\[0.2em]
-\textbf{Exp.\ 2} (``inverse inverse physics''): a hopping robot mimes pulling a heavy box. Controls: chance on same-weight pairs, 97\% on honest heavy vs.\ light. The mime is judged heavier than an honest light box (\textbf{95.7\%}) and than an honest \emph{heavy} box (\textbf{68.6\%}). \note{35 participants in the text; Fig.~4b says N = 70.}
+\note{Mean of 20 animations per bar. Helping and hindering: $p<0.01$. Indifferent: n.s.}\\[0.2em]
+\textbf{Exp.\ 2} (``inverse inverse physics''): a hopping robot mimes pulling a heavy box. Controls: chance on same-weight pairs, 97\% on honest heavy vs.\ light. The mime is judged heavier than an honest light box (\textbf{95.7\%}) and than an honest \emph{heavy} box (\textbf{68.6\%}). \note{The text reports 35 participants, Fig.~4b says N = 70.}
 \end{mblock}
 
 \begin{mblock}{\faRandom\ Storytelling devices as objectives}
 \begin{itemize}
   \item \textbf{Plot twist}: belief ``helps'' in the first half, ``hinders'' in the second.
-  \item \textbf{Dramatic irony}: the audience knows the cheese's goal; the robot does not and hinders by mistake.
-  \item \textbf{Flashback}: fix a known final event; find a past that makes it look helpful.
-  \item \textbf{Narrative arc}: fortune rises, falls, rises; a penalty on sudden belief changes keeps the goals stable; a table can fall ``from the sky'' that no character expects (deus ex machina).
-  \item One seed each, no human test.
+  \item \textbf{Dramatic irony}: the audience knows the cheese's goal, but the robot does not and hinders it by mistake.
+  \item \textbf{Flashback}: fix a known final event, then search for a past that makes it look helpful.
+  \item \textbf{Narrative arc}: the robot's fortune rises, falls, rises. A penalty on sudden belief changes keeps the goals stable. The table can fall ``from the sky'', which no character expects (deus ex machina).
+  \item One seed per device, no human test.
 \end{itemize}
 \end{mblock}
 
 \begin{mblock}{\faUserSecret\ \borges{The Garden of Forking Paths} (an interpretation)}
-Yu Tsun, a German spy in England, must tell his Chief in Berlin the name of a town. He kills a stranger named Albert; the newspapers report it; the Chief understands and the town of Albert is bombed.
+Yu Tsun, a German spy in England, must tell his Chief in Berlin the name of a town. He kills a stranger named Albert. The newspapers report the murder, the Chief understands, and the town of Albert is bombed.
 \begin{itemize}
-  \item \textbf{Reading 1}: the murder is inverse inverse planning, with \teller{storyteller} Yu Tsun, \belief{audience} the Chief, observations = newspapers. The act is terrible in the world but is the only one that creates the belief: an extreme mime.
+  \item \textbf{Reading 1}: the murder is inverse inverse planning, with \teller{storyteller} Yu Tsun, \belief{audience} the Chief, observations = newspapers. The act is terrible in the world, but it is the only one that creates the belief. Compare the hopper's mime.
   \item \textbf{Reading 2}: Borges shapes the reader's belief the same way: Yu Tsun calls himself Albert's friend, then shoots (twist).
-  \item \textbf{Reading 3}: Ts'ui Pen's novel takes \emph{every} branch; a storyteller keeps \emph{one} script and lets the audience infer the meaning: show, don't tell.
+  \item \textbf{Reading 3}: Ts'ui Pen's novel takes \emph{every} branch. A storyteller keeps \emph{one} script and leaves the meaning for the audience to infer, as in ``show, don't tell''.
 \end{itemize}
 \end{mblock}
 

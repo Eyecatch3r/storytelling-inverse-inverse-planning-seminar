@@ -5,7 +5,7 @@ Planning: goal → actions. Inverse planning (Bayesian ToM): actions → goal. I
 
 ## Core ideas
 - Acting *in* a situation vs. acting *out* a situation. A storyteller optimizes the audience's belief, not the character's reward.
-- Inspired by Kukkonen (2014): a story is a "probability design" — a journey of the reader's changing beliefs.
+- Inspired by Kukkonen (2014): a story is a "probability design", meaning a journey through the reader's changing beliefs.
 - Audience model: Ullman et al. (2009) inverse planner. Grid world, robot + "cheese" agent, MDP, softmax-rational policies, two levels of recursion.
 - Hypothesis H = ⟨G_cheese, G_robot, ρ_robot⟩. Posterior P(H | s → a) ∝ P(s → a | H) P(H).
 - Script σ = initial state + sequence of transitions. Objective example: f_help(σ) = Σ_t P(ρ_robot > 0 | σ_1:t). Optimized with beam search.
