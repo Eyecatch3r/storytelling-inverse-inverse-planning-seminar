@@ -21,6 +21,7 @@
 }
 
 \usetikzlibrary{positioning,arrows.meta,fit,backgrounds,calc}
+\input{anim/hinder-story}  % hindering steps, shared with anim/hinder-anim.tex (svg-animate)
 
 \graphicspath{{assets/}}
 \setlength{\tabcolsep}{5pt}
@@ -944,11 +945,8 @@ A story's shape = the hero's fortune over time. Reagan et al.\ (2016) extracted 
 \begin{block}{\faWalking\ Naïve planning}
 \centering
 \begin{tikzpicture}[scale=0.42]
-  \draw[cellgrid] (0,0) grid (8,4);
-  \fill[goalGreen!50] (7,1) rectangle (8,2);
-  \fill[cheeseGold] (3.5,1.5) circle (0.32);
-  \draw[walk, robotBlue] (1.5,3.5) -- (6.5,3.5) -- (6.5,1.5) -- (7.4,1.5);
-  \node[circle, fill=robotBlue, inner sep=2pt] at (1.5,3.5) {};
+  \hinderworld
+  \storybeamer{\naivescript}
 \end{tikzpicture}\\[0.2em]
 {\scriptsize The robot walks onto green and blocks it.\\Hindering, or does it just want green?}
 \end{block}
@@ -958,12 +956,8 @@ A story's shape = the hero's fortune over time. Reagan et al.\ (2016) extracted 
 \begin{block}{\faTheaterMasks\ Inverse inverse planning}
 \centering
 \begin{tikzpicture}[scale=0.42]
-  \draw[cellgrid] (0,0) grid (8,4);
-  \fill[goalGreen!50] (7,1) rectangle (8,2);
-  \fill[cheeseGold] (0.5,0.5) circle (0.32);
-  \draw[walk, robotBlue] (4.5,1.5) -- (1.6,1.5) -- (1.6,0.9);
-  \draw[-{Stealth[length=1.5mm]}, thick, cheeseGold!80!black] (3.5,1.5) -- (0.9,0.7);
-  \node[circle, fill=robotBlue, inner sep=2pt] at (4.5,1.5) {};
+  \hinderworld
+  \storybeamer{\iipscript}
 \end{tikzpicture}\\[0.2em]
 {\scriptsize The robot pushes the cheese into a corner and blocks the way.\\It \alert{never} steps onto green.}
 \end{block}
@@ -972,9 +966,9 @@ A story's shape = the hero's fortune over time. Reagan et al.\ (2016) extracted 
 \end{columns}
 
 \slideendspace
-\begin{alertblock}{\faLightbulb\ Reading}
+\uncover<8->{\begin{alertblock}{\faLightbulb\ Reading}
 The search avoids moves that a viewer could explain by a different goal.
-\end{alertblock}
+\end{alertblock}}
 \figsource{Schematic of the animations described in Chandra et al.\ (2023), not the paper's frames.}
 \end{frame}
 

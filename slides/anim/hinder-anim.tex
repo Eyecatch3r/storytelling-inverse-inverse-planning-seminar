@@ -1,0 +1,24 @@
+% Animated SVGs of the hindering example (svg-animate, plays in a browser).
+% Build from slides/anim/:
+%   latex hinder-anim.tex  (run twice)
+%   dvisvgm --font-format=woff2 --optimize=all --bbox=min -p1 -o hinder-naive.svg hinder-anim.dvi
+%   dvisvgm --font-format=woff2 --optimize=all --bbox=min -p2 -o hinder-iip.svg hinder-anim.dvi
+\documentclass[border=4pt,multi=tikzpicture]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{svg-animate}
+\input{hinder-story}
+
+\begin{document}
+\begin{tikzpicture}[scale=0.6]
+  \node[anchor=south, font=\sffamily\small] at (4,4.1) {Hindering: na\"ive planning};
+  \hinderworld
+  \storysvg[duration=0.8]{\naivescript}
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=0.6]
+  \node[anchor=south, font=\sffamily\small] at (4,4.1) {Hindering: inverse inverse planning};
+  \hinderworld
+  \storysvg[duration=0.8]{\iipscript}
+\end{tikzpicture}
+\end{document}

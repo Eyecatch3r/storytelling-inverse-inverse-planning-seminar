@@ -1,0 +1,81 @@
+% Hindering example (Chandra et al. 2023, video 1:12-1:50), one source for two outputs:
+%   main.tex        -> \storybeamer : one beamer overlay per step (PDF deck)
+%   hinder-anim.tex -> \storysvg    : svg-animate SMIL animation (browser)
+% Schematic of the paper's animations, not the paper's frames.
+% Each script is a list of steps: robot x/y / cheese x/y (cell indices, 8x4 grid).
+
+\providecolor{robotBlue}{HTML}{4C78A8}
+\providecolor{cheeseGold}{HTML}{C9A100}
+\providecolor{goalGreen}{HTML}{3E9B4F}
+
+\newcommand{\hinderworld}{%
+  \draw[gray!35] (0,0) grid (8,4);
+  \fill[goalGreen!50] (7,1) rectangle (8,2);
+}
+\protected\def\hinderchars#1#2#3#4{%
+  \fill[robotBlue] (#1+0.2,#2+0.2) rectangle ++(0.6,0.6);
+  \fill[cheeseGold] (#3+0.5,#4+0.5) circle (0.32);
+}
+% trail segment from the previous step (#1-#4) to this step (#5-#8)
+\protected\def\hindertrail#1#2#3#4#5#6#7#8{%
+  \draw[robotBlue!45, line width=2.5pt, line cap=round] (#1+0.5,#2+0.5) -- (#5+0.5,#6+0.5);
+  \draw[cheeseGold!60, line width=2pt, line cap=round, dash pattern=on 2pt off 2.5pt] (#3+0.5,#4+0.5) -- (#7+0.5,#8+0.5);
+}
+
+% Naive planning: the robot walks onto green. Step 4: the cheese's move fails.
+\def\naivescript{4/3/1/1, 5/3/2/1, 6/3/3/1, 6/2/3/1, 6/1/4/1, 7/1/5/1, 7/1/6/1}
+% Inverse inverse planning: the cheese heads for green, the robot pushes it
+% into the corner and blocks the way. The robot never steps onto green.
+\def\iipscript{5/2/3/1, 5/1/4/1, 4/1/3/1, 3/1/2/1, 2/1/1/1, 1/1/0/1, 1/1/0/0, 1/0/0/0}
+
+\makeatletter
+\newcount\story@n
+\newcommand{\story@count}[1]{%
+  \global\story@n=0
+  \foreach \story@p in #1 {\global\advance\story@n 1}%
+  \xdef\story@last{\the\story@n}%
+}
+\newcommand{\story@loop}[2]{% #1 script, #2 body using \i \rx \ry \cx \cy \prx \pry \pcx \pcy
+  \foreach \rx/\ry/\cx/\cy [count=\i,
+      remember=\rx as \prx (initially 0), remember=\ry as \pry (initially 0),
+      remember=\cx as \pcx (initially 0), remember=\cy as \pcy (initially 0)] in #1 {#2}%
+}
+
+% Beamer: step i shows on overlay i, the last step stays until the frame ends.
+\newcommand{\storybeamer}[1]{%
+  \story@count{#1}%
+  \story@loop{#1}{%
+    \ifnum\i>1 \only<\i->{\hindertrail{\prx}{\pry}{\pcx}{\pcy}{\rx}{\ry}{\cx}{\cy}}\fi
+    \ifnum\i=\story@last\relax
+      \only<\i->{\hinderchars{\rx}{\ry}{\cx}{\cy}}%
+    \else
+      \only<\i>{\hinderchars{\rx}{\ry}{\cx}{\cy}}%
+    \fi
+  }%
+}
+
+% svg-animate: the animate environment splits its body on literal \animstep
+% tokens, so the body is built as a token list first and then handed over.
+\newtoks\story@toks
+\newcommand{\storysvg}[2][]{% #1 animate options, #2 script
+  \story@count{#2}%
+  \global\story@toks{}%
+  \story@loop{#2}{%
+    \ifnum\i>1
+      \ifnum\i=\story@last\relax
+        \xdef\story@add{\noexpand\animstep[duration=3]%
+          \noexpand\reveal{\noexpand\hindertrail{\prx}{\pry}{\pcx}{\pcy}{\rx}{\ry}{\cx}{\cy}}}%
+      \else
+        \xdef\story@add{\noexpand\animstep
+          \noexpand\reveal[step={\i-\story@last}]{\noexpand\hindertrail{\prx}{\pry}{\pcx}{\pcy}{\rx}{\ry}{\cx}{\cy}}}%
+      \fi
+    \else
+      \gdef\story@add{}%
+    \fi
+    \xdef\story@add{\story@add\noexpand\reveal{\noexpand\hinderchars{\rx}{\ry}{\cx}{\cy}}}%
+    \global\story@toks\expandafter{\the\expandafter\story@toks\story@add}%
+  }%
+  \edef\story@go{\noexpand\begin{animate}[#1]\the\story@toks\noexpand\end{animate}}%
+  \story@go
+}
+\makeatother

@@ -21,4 +21,5 @@
 ## Layout
 - `papers/` — source PDFs. Do not edit. Git-ignored (copyright): keep them local only.
 - `notes.md` — reading notes and talk outline.
+- `slides/anim/` — hindering example as step data (`hinder-story.tex`). The deck shows it as beamer overlays. `hinder-anim.tex` builds browser SVGs with svg-animate (build commands in its header).
 - `slides/` — the deck (`main.tex`), the one-page handout (`summary.tex`), cropped paper figures in `assets/` (paper is CC BY 4.0).

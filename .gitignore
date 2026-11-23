@@ -11,3 +11,6 @@ slides/*.out
 slides/*.snm
 slides/*.toc
 slides/*.vrb
+slides/anim/*.aux
+slides/anim/*.log
+slides/anim/*.dvi
